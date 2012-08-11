@@ -5,7 +5,7 @@ h2. Author: Danko Kozar
 Event-driven applications are all around you.
 Should games be event-driven? I think they should - because the event-driven applications are more modular, decoupled, maintainable and upgradeable.
 
-*eDriven will change the way you think. *
+*eDriven will change the way you think.*
 
 h2. Concept
 
