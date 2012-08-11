@@ -50,7 +50,7 @@ private void ClickSlot(params object[] parameters)
 
 h2. Core classes and utilities
 
-eDriven framework contains a number of useful classes:
+eDriven framework contains a number of classes:
 
  * SystemManager
  * SystemEventDispatcher
