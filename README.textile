@@ -67,7 +67,7 @@ eDriven framework contains a number of classes:
  * HttpConnector
  * JavascriptConnector
 
-... and many other. They all serve a purpose of the framework: making a decoupled programming possible with Unity. 
+... and many other. They all serve to the purpose of the framework: making a decoupled programming possible with Unity. 
 
 h2. Resources
 
