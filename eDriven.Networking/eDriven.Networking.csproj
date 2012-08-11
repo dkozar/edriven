@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7D407BA0-36E8-4B16-B69F-4AE63FAD1A8B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>eDriven.Networking</RootNamespace>
+    <AssemblyName>eDriven.Networking</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\eDriven.Networking.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Asset store|AnyCPU' ">
+    <OutputPath>bin\Asset store\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|AnyCPU' ">
+    <OutputPath>bin\Production\</OutputPath>
+    <DefineConstants>TRACE;PRODUCTION</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caching\Cache.cs" />
+    <Compile Include="Caching\ImageLoader.cs" />
+    <Compile Include="Caching\IResourceLoaderProxy.cs" />
+    <Compile Include="Configuration\Application.cs" />
+    <Compile Include="Configuration\ConfigLoader.cs" />
+    <Compile Include="Configuration\ConfigSections\ConfigurationProperty.cs" />
+    <Compile Include="Configuration\ConfigSections\Services.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="External\JavascriptConnector.cs" />
+    <Compile Include="Info.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rpc\Core\AsyncToken.cs" />
+    <Compile Include="Rpc\Core\ConcurencyMode.cs" />
+    <Compile Include="Rpc\Core\HttpConnector.cs" />
+    <Compile Include="Rpc\Core\HttpServiceProgressAggregator.cs" />
+    <Compile Include="Rpc\Core\HttpServiceProgressEvent.cs" />
+    <Compile Include="Rpc\Core\HttpServiceSingleton.cs" />
+    <Compile Include="Rpc\Core\IResponder.cs" />
+    <Compile Include="Rpc\Core\ProcessingMode.cs" />
+    <Compile Include="Rpc\Core\Responder.cs" />
+    <Compile Include="Rpc\Core\ResponseMode.cs" />
+    <Compile Include="Rpc\Core\WebRequest.cs" />
+    <Compile Include="Rpc\Core\WebRequestEvent.cs" />
+    <Compile Include="Rpc\Loaders\TextureLoader.cs" />
+    <Compile Include="Rpc\Multiplicators\BundleLoaderBase.cs" />
+    <Compile Include="Rpc\Multiplicators\ImageLoaderBase.cs" />
+    <Compile Include="Rpc\Multiplicators\TextureLoaderBase.cs" />
+    <Compile Include="Rpc\Multiplicators\TokenMultiplicator.cs" />
+    <Compile Include="Serialization\ISerializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Serialization\XmlSerializer.cs" />
+    <Compile Include="Util\Logger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\eDriven.Core\eDriven.Core.csproj">
+      <Project>{F4447751-B5FB-43CE-88F5-9BDF05B87F1E}</Project>
+      <Name>eDriven.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MIT-LICENSE.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)Unity\Assets\eDriven\Libs\ /Y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

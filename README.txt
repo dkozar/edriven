@@ -1,0 +1,77 @@
+h1. eDriven Framework: event-driven framework for Unity3d.
+
+h2. Author: Danko Kozar
+
+Event-driven applications are all around you.
+Should games be event-driven? I think they should - because the event-driven applications are more modular, decoupled, maintainable and upgradeable.
+
+*eDriven will change the way you think. *
+
+h2. Concept
+
+ * eDriven framework is the result of 10 years of programming experience, self-education and research. 
+ * It is inspired by RIA (Rich Internet Applications) frameworks, such as Apache Flex and other Actionscript and Javascript frameworks.
+ * The idea behind the building of a framework was to bring the event-driven programming paradigm to Unity.
+ * There has been a number of libraries for Unity, but I decided to go with my own. The reasoning behind this is I wanted to build other libraries upon my event-dispatching system and I wanted the total control.
+ * .NET framework events were not appropriate.
+ * There are two different event-dispatching systems inside eDriven: 
+    1) Signals
+	2) Events
+ * Signals are inspired by "Robert Panner's Signals":https://github.com/robertpenner/as3-signals and are used for all internals. Signals are faster then events because there's no instantiation involved. Also, your class doesn't require the inheritance of some base (dispatcher) class.
+ * Events are more common and are inspired by "DOM Level 3 Events":http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/. They support event bubbling, which is important for GUI. The class which needs to dispatch events has to inherit from the EventDispatcher class.
+
+h2. Event Syntax
+
+<pre><code>button.AddEventListener(MouseEvent.CLICK, ClickHandler);
+
+private void ClickHandler(Event e)
+{
+	Button button = e.Target as Button;
+	//Debug.Log("Clicked button with label: " + button.Label);
+	
+	// or
+	MouseEvent me = (MouseEvent)e;
+	Point position = me.GlobalPosition;
+	//Debug.Log("Clicked on the position: " + position);
+}
+
+</code></pre>
+
+h2. Signal Syntax
+
+<pre><code>button.ClickSignal.Connect(ClickedSlot);
+
+private void ClickSlot(params object[] parameters)
+{
+	// do something with parameters...
+}
+</code></pre>
+
+h2. Utilities
+
+eDriven framework contains the number of additional classes:
+
+ * SystemManager
+ * SystemEventDispatcher
+ * MouseEventDispatcher
+ * KeyboardMapper
+ * CallbackQueue
+ * TaskQueue
+ * PowerMapper
+ * AudioPlayerMapper
+ * Cache
+ * ObjectPool
+ * PriorityStack
+ * Timer
+ * HttpConnector
+ * JavascriptConnector
+
+... and many more. This all serves the purpose of the framework of making a decoupled programming possible with Unity. 
+
+h2. Resources
+
+* "API":http://edriven.dankokozar.com/api/1-0/
+* "Videos":http://www.youtube.com/playlist?list=PL7EE340828F962941
+* "Demo site":http://edrivenunity.com/
+* "Author's homepage":http://dankokozar.com
+* I’m @DankoKozar on Twitter.

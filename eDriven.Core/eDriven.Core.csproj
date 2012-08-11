@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F4447751-B5FB-43CE-88F5-9BDF05B87F1E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>eDriven.Core</RootNamespace>
+    <AssemblyName>eDriven.Core</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\eDriven.Core.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Asset store|AnyCPU' ">
+    <OutputPath>bin\Asset store\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|AnyCPU' ">
+    <OutputPath>bin\Production\</OutputPath>
+    <DefineConstants>TRACE;PRODUCTION</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Reflection\GlobalMemberTypeCache.cs" />
+    <Compile Include="Signals\Slot.cs" />
+    <Compile Include="Tasks\AsyncRequestHandler.cs" />
+    <Compile Include="Control\Keyboard\KeyboardMapper.cs" />
+    <Compile Include="Control\Keyboard\KeyCombination.cs" />
+    <Compile Include="Control\Keyboard\KeyEventType.cs" />
+    <Compile Include="Events\EventDispatcher\EventPhaseHelper.cs" />
+    <Compile Include="Events\EventDispatcher\LazyEventDispatcher.cs" />
+    <Compile Include="Util\MouseUtil.cs" />
+    <Compile Include="Mapper\IPowerMapper.cs" />
+    <Compile Include="Mapper\PowerMapper.cs" />
+    <Compile Include="Util\AsyncLoaderCallback.cs" />
+    <Compile Include="Util\Cache.cs" />
+    <Compile Include="Reflection\MemberWrapper.cs" />
+    <Compile Include="Reflection\PropertyTypeCache.cs" />
+    <Compile Include="Util\ResourceLoader.cs" />
+    <Compile Include="Util\ISyncLoader.cs" />
+    <Compile Include="Util\IAsyncLoader.cs" />
+    <Compile Include="FrameworkMonoBehaviour.cs" />
+    <Compile Include="Data\Collections\ListItem.cs" />
+    <Compile Include="Events\EventDispatcher\EventTypePhase.cs" />
+    <Compile Include="Events\IndexChangeEvent.cs" />
+    <Compile Include="Events\EventDispatcher\EventDispatcherComponent.cs" />
+    <Compile Include="Events\EventDispatcher\MulticastDelegate.cs" />
+    <Compile Include="Framework.cs" />
+    <Compile Include="Geom\ConstrainMetrics.cs" />
+    <Compile Include="Info.cs" />
+    <Compile Include="Tasks\TaskBase.cs" />
+    <Compile Include="Tasks\TaskQueue.cs" />
+    <Compile Include="Tasks\Token.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\IProgress.cs" />
+    <Compile Include="Managers\SystemEventManager.cs" />
+    <Compile Include="Managers\System\ScreenSizeProcessor.cs" />
+    <Compile Include="Managers\System\MousePositionProcessor.cs" />
+    <Compile Include="Managers\System\IUnityEventProcessor.cs" />
+    <Compile Include="Managers\System\KeyboardProcessor.cs" />
+    <Compile Include="Managers\System\MouseProcessor.cs" />
+    <Compile Include="Managers\System\UnityEventProcessorBase.cs" />
+    <Compile Include="Mono\GizmoManager.cs" />
+    <Compile Include="Mono\SystemBehaviour.cs" />
+    <Compile Include="Mono\SystemManagerInvoker.cs" />
+    <Compile Include="Serialization\IUnique.cs" />
+    <Compile Include="Serialization\StringIndexedList.cs" />
+    <Compile Include="Serialization\XmlSerializer.cs" />
+    <Compile Include="Signals\ISignal.cs" />
+    <Compile Include="Signals\Signal.cs" />
+    <Compile Include="Events\ValueChangedEvent.cs" />
+    <Compile Include="Events\CollectionEvent.cs" />
+    <Compile Include="Events\EventDispatcher\Event.cs" />
+    <Compile Include="Events\EventDispatcher\EventDispatcher.cs" />
+    <Compile Include="Events\EventDispatcher\EventHandler.cs" />
+    <Compile Include="Events\EventDispatcher\EventPhase.cs" />
+    <Compile Include="Events\EventDispatcher\IEventDispatcher.cs" />
+    <Compile Include="Events\EventDispatcher\IEventQueue.cs" />
+    <Compile Include="Events\InputEvent.cs" />
+    <Compile Include="Events\KeyboardEvent.cs" />
+    <Compile Include="Events\MouseEvent.cs" />
+    <Compile Include="Events\ResizeEvent.cs" />
+    <Compile Include="Events\ValueEvent.cs" />
+    <Compile Include="Geom\EdgeMetrics.cs" />
+    <Compile Include="Geom\Point.cs" />
+    <Compile Include="Geom\Rectangle.cs" />
+    <Compile Include="Managers\SystemManager.cs" />
+    <Compile Include="Callback\AssetBundleQueue.cs" />
+    <Compile Include="Callback\CallbackQueue.cs" />
+    <Compile Include="Test\CallbackQueue\TestQueue.cs" />
+    <Compile Include="Test\CallbackQueue\TestRequest.cs" />
+    <Compile Include="Callback\WwwQueue.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ComponentUtil.cs" />
+    <Compile Include="Util\TypedPriorityStack.cs" />
+    <Compile Include="Util\GameObjectUtil.cs" />
+    <Compile Include="Util\LogUtil.cs" />
+    <Compile Include="Util\ObjectPool.cs" />
+    <Compile Include="Reflection\PropertyComparer.cs" />
+    <Compile Include="Util\PriorityStack.cs" />
+    <Compile Include="Reflection\MemberProxy.cs" />
+    <Compile Include="Reflection\ReflectionUtil.cs" />
+    <Compile Include="Util\Timer\Timer.cs" />
+    <Compile Include="Util\Timer\TimerException.cs" />
+    <Compile Include="Util\StageUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MIT-LICENSE.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)Unity\Assets\eDriven\Libs\ /Y</PostBuildEvent>
+  </PropertyGroup>
+</Project>
