@@ -3,7 +3,8 @@ h1. eDriven Framework: event-driven framework for Unity3d.
 h2. Author: Danko Kozar
 
 Event-driven applications are all around you.
-Should games be event-driven? I think they should - because the event-driven applications are more modular, decoupled, maintainable and upgradeable.
+Should games be event-driven? 
+I think they should - because the event-driven applications are more modular, decoupled, maintainable and upgradeable.
 
 *eDriven will change the way you think.*
 
@@ -27,12 +28,12 @@ h2. Event syntax
 private void ClickHandler(Event e)
 {
 	Button button = e.Target as Button;
-	//Debug.Log("Clicked button with label: " + button.Label);
+	Debug.Log("Clicked button with label: " + button.Label);
 	
 	// or
 	MouseEvent me = (MouseEvent)e;
 	Point position = me.GlobalPosition;
-	//Debug.Log("Clicked at the position: " + position);
+	Debug.Log("Clicked at position: " + position);
 }
 
 </code></pre>
