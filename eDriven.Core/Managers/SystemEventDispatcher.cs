@@ -40,7 +40,7 @@ namespace eDriven.Core.Managers
     /// Dispatches eDriven.Events to interested parties
     /// </summary>
     /// <remarks>Conceived and coded by Danko Kozar</remarks>
-    public sealed class SystemEventManager : EventDispatcher
+    public sealed class SystemEventDispatcher : EventDispatcher
     {
 
 #if DEBUG
@@ -52,9 +52,9 @@ namespace eDriven.Core.Managers
         
         #region Singleton
 
-        private static SystemEventManager _instance;
+        private static SystemEventDispatcher _instance;
         
-        private SystemEventManager()
+        private SystemEventDispatcher()
         {
             // Constructor is protected!
         }
@@ -62,7 +62,7 @@ namespace eDriven.Core.Managers
         /// <summary>
         /// Singleton instance
         /// </summary>
-        public static SystemEventManager Instance
+        public static SystemEventDispatcher Instance
         {
             get
             {
@@ -70,9 +70,9 @@ namespace eDriven.Core.Managers
                 {
 #if DEBUG
                     if (DebugMode)
-                        Debug.Log(string.Format("Instantiating SystemEventManager instance"));
+                        Debug.Log(string.Format("Instantiating SystemEventDispatcher instance"));
 #endif
-                    _instance = new SystemEventManager();
+                    _instance = new SystemEventDispatcher();
                     _instance.Initialize();
                 }
 
@@ -91,10 +91,10 @@ namespace eDriven.Core.Managers
         {
 #if DEBUG
             if (DebugMode)
-                Debug.Log(string.Format("Initializing SystemEventManager"));
+                Debug.Log(string.Format("Initializing SystemEventDispatcher"));
 #endif
 
-            // processes queued events on SystemEventManager
+            // processes queued events on SystemEventDispatcher
             //_updateSlot = new UpdateSlot(this);
             SystemManager.Instance.UpdateSignal.Connect(UpdateSlot);
 
@@ -123,7 +123,7 @@ namespace eDriven.Core.Managers
 
         private void UpdateSlot(params object[] parameters)
         {
-            // process queued events on SystemEventManager
+            // process queued events on SystemEventDispatcher
             // (those events came from KeyUpSlot, KeyDownSlot etc.
             ProcessQueue();
         }

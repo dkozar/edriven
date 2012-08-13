@@ -1,37 +1,32 @@
-h1. eDriven Framework: event-driven framework for Unity3d.
+h1. eDriven Framework: event-driven / asynchronous framework for "Unity3d":http://unity3d.com/.
 
 h2. Author: Danko Kozar
 
-Event-driven applications are all around you.
-Should games be event-driven? 
-I think they should - because the event-driven applications are more modular, decoupled, maintainable and upgradeable.
-
-*eDriven will change the way you think.*
-
 h2. Concept
 
- * eDriven framework is the result of 10 years of programming experience, self-education and research. 
+ * eDriven framework is the result of 10 years of programming experience, self-education and research.
+ * Basically, it is the adapter for Unity to an asynchronous world.
  * It is inspired by RIA (Rich Internet Applications) frameworks, such as Apache Flex and other Actionscript and Javascript frameworks.
- * The idea behind the building of a framework was to bring the event-driven programming paradigm to Unity.
- * There has been a number of libraries for Unity, but I decided to go with my own. The reasoning behind this was that I wanted to build other libraries upon my event-dispatching system and I wanted the total control.
+ * The idea behind building a framework was to bring the event-driven programming paradigm to Unity.
+ * There has been a number of libraries for Unity, but I decided to go with my own. The reasoning behind this was I wanted to build additional libraries upon my event-dispatching system and wanted the total control.
  * .NET framework events were not appropriate.
- * There are two different event-dispatching systems inside eDriven: 
+ * There are two parallel event-dispatching systems inside eDriven: 
     1) Signals
 	2) Events
- * Signals are inspired by "Robert Panner's Signals":https://github.com/robertpenner/as3-signals and are used for all internals. Signals are faster then events because there's no instantiation involved. Also, your class doesn't require the inheritance of some base (dispatcher) class.
- * Events are more common and are inspired by "DOM Level 3 Events":http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/. They support event bubbling, which is important for GUI. The class that needs to dispatch events has to inherit from the EventDispatcher class.
+ * Signals are inspired by "Robert Panner's Signals":https://github.com/robertpenner/as3-signals and are used for framework internals. Signals are faster then events because there's no instantiation involved. Also, your class isn't required to inherit some base (dispatcher) class.
+ * Events are more common and are inspired by "DOM Level 3 Events":http://www.w3.org/TR/DOM-Level-3-Events/. They support event bubbling, which is an important feature for GUI. The class that needs to dispatch events must inherit from EventDispatcher class.
 
 h2. Event syntax
 
 <pre><code>button.AddEventListener(MouseEvent.CLICK, ClickHandler);
 
-private void ClickHandler(Event e)
+private void ClickHandler(Event e) // eDriven.Core.Events.Event
 {
 	Button button = e.Target as Button;
 	Debug.Log("Clicked button with label: " + button.Label);
 	
 	// or
-	MouseEvent me = (MouseEvent)e;
+	MouseEvent me = (MouseEvent)e; // we got to know the type of the Event
 	Point position = me.GlobalPosition;
 	Debug.Log("Clicked at position: " + position);
 }
@@ -40,7 +35,7 @@ private void ClickHandler(Event e)
 
 h2. Signal syntax
 
-<pre><code>button.ClickSignal.Connect(ClickedSlot);
+<pre><code>button.ClickSignal.Connect(ClickSlot);
 
 private void ClickSlot(params object[] parameters)
 {
@@ -52,26 +47,26 @@ h2. Core classes and utilities
 
 eDriven framework contains a number of classes:
 
- * SystemManager
- * SystemEventDispatcher
- * MouseEventDispatcher
- * KeyboardMapper
- * CallbackQueue
- * TaskQueue
- * PowerMapper
- * AudioPlayerMapper
- * Cache
- * ObjectPool
- * PriorityStack
- * Timer
- * HttpConnector
- * JavascriptConnector
+ * SystemManager (emits system signals)
+ * SystemEventDispatcher (dispatches system events)
+ * MouseEventDispatcher (dispatches mouse events)
+ * KeyboardMapper (easy mapping for keyboard gestures)
+ * CallbackQueue (implements queuing of async operations)
+ * TaskQueue (sinchronizes async operations)
+ * PowerMapper (maps strings to stuff)
+ * AudioPlayerMapper (maps strings to AudioPlayers)
+ * Cache (caches stuff)
+ * ObjectPool (prevents instantiation and garbage collection problems)
+ * Timer (handy source of timed events)
+ * HttpConnector (loads stuff from web, triggers responders when finished)
+ * JavascriptConnector (talks with a host web page)
 
-... and many other. They all serve to the purpose of the framework: making a decoupled programming possible with Unity. 
+... and many others. They all serve the purpose of the framework: making the asynchronous, event-driven programming possible with Unity. 
 
 h2. Resources
 
-* "eDriven API":http://edriven.dankokozar.com/api/1-0/ (note: eDriven.Gui and eDriven.Animation APIs also included)
+* "eDriven API":http://edriven.dankokozar.com/api/1-0/ (note: eDriven.Gui and eDriven.Animation also included in the API)
+* "Binaries (DLL-s)": http://code.google.com/p/edriven/downloads/list
 * "Videos":http://www.youtube.com/playlist?list=PL7EE340828F962941
 * "Demo site":http://edrivenunity.com/ (requires Unity web player)
 * "Author's homepage":http://dankokozar.com
