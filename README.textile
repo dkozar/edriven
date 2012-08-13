@@ -1,8 +1,8 @@
 h1. eDriven Framework
 
-h2. Event-driven / asynchronous framework for "Unity3d":http://unity3d.com/.
+h1. Event-driven / asynchronous framework for "Unity3d":http://unity3d.com/.
 
-h1. Author: Danko Kozar
+h2. Author: Danko Kozar
 
 h2. Concept
 
