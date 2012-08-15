@@ -7,7 +7,7 @@ h2. Author: Danko Kozar
 h2. Concept
 
  * eDriven framework is the result of 10 years of programming experience, self-education and research.
- * Basically, it is the adapter for Unity to get it to work asynchronous.
+ * Basically, it is the adapter for Unity to get it to work as an asynchronous system.
  * It is inspired by RIA (Rich Internet Applications) frameworks, such as Apache Flex and other Actionscript and Javascript frameworks.
  * The idea behind building a framework was to bring the event-driven programming paradigm to Unity.
  * There has been a number of libraries for Unity, but I decided to go with my own. The reasoning behind this was I wanted to build additional libraries upon my event-dispatching system and wanted the total control.
