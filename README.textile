@@ -25,7 +25,7 @@ h2. Event syntax
 private void ClickHandler(Event e) // eDriven.Core.Events.Event
 {
 	Button button = e.Target as Button;
-	Debug.Log("Clicked button with label: " + button.Label);
+	Debug.Log("Clicked button with label: " + button.Text);
 	
 	// or
 	MouseEvent me = (MouseEvent)e; // we got to know the type of the Event
