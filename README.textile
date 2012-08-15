@@ -7,7 +7,7 @@ h2. Author: Danko Kozar
 h2. Concept
 
  * eDriven framework is the result of 10 years of programming experience, self-education and research.
- * Basically, it is the adapter for Unity to an asynchronous world.
+ * Basically, it is the adapter for Unity to get it to work asynchronous.
  * It is inspired by RIA (Rich Internet Applications) frameworks, such as Apache Flex and other Actionscript and Javascript frameworks.
  * The idea behind building a framework was to bring the event-driven programming paradigm to Unity.
  * There has been a number of libraries for Unity, but I decided to go with my own. The reasoning behind this was I wanted to build additional libraries upon my event-dispatching system and wanted the total control.
@@ -41,7 +41,7 @@ h2. Signal syntax
 
 private void ClickSlot(params object[] parameters)
 {
-	// do something with parameters...
+	// do something with parameters (we got to know the number of parameters and each one's type)
 }
 </code></pre>
 
@@ -54,13 +54,13 @@ eDriven framework contains a number of classes:
  * MouseEventDispatcher (dispatches mouse events)
  * KeyboardMapper (easy mapping for keyboard gestures)
  * CallbackQueue (implements queuing of async operations)
- * TaskQueue (sinchronizes async operations)
+ * TaskQueue (sequences async operations)
  * PowerMapper (maps strings to stuff)
  * AudioPlayerMapper (maps strings to AudioPlayers)
  * Cache (caches stuff)
  * ObjectPool (prevents instantiation and garbage collection problems)
  * Timer (handy source of timed events)
- * HttpConnector (loads stuff from web, triggers responders when finished)
+ * HttpConnector (loads stuff from the web and triggers responders when finished)
  * JavascriptConnector (talks with a host web page)
 
 ... and many others. They all serve the purpose of the framework: making the asynchronous, event-driven programming possible with Unity. 
@@ -71,5 +71,6 @@ h2. Resources
 * "Binaries (DLL-s)":http://code.google.com/p/edriven/downloads/list
 * "Videos":http://www.youtube.com/playlist?list=PL7EE340828F962941
 * "Demo site":http://edrivenunity.com/ (requires Unity web player)
+* "Unity Forum thread":http://forum.unity3d.com/threads/76835-eDriven-framework-for-Unity-released?p=492016#post492016
 * "Author's homepage":http://dankokozar.com
 * "I’m @DankoKozar on Twitter":https://twitter.com/DankoKozar.
