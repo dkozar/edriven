@@ -32,7 +32,7 @@ namespace eDriven.Core.Signals
 {
     /// <summary>
     /// Signal class
-    /// Inspired by AS3 Signals
+    /// eDriven signals are inspired by Robert Penner's signals (Actionscript 3) -> Signals are so inspiring, Rob! :)
     /// </summary>
     /// <see cref="https://github.com/robertpenner/as3-signals/"/>
     public class Signal : ISignal
@@ -57,7 +57,7 @@ namespace eDriven.Core.Signals
         {
             if (_slots.Contains(slot))
                 return; // do nothing
-            
+
             _slots.Add(slot);
             if (autoDisconnect)
                 _autoDisconnectSlots.Add(slot);
@@ -85,17 +85,17 @@ namespace eDriven.Core.Signals
 
         public void Emit(params object[] parameters)
         {
-            _slots.ForEach(delegate (Slot slot)
-                               {
-                                   slot(parameters);
-                                  
-                                   // disconect one-time receivers
-                                   if (!_autoDisconnectSlots.Contains(slot)) 
-                                       return;
+            _slots.ForEach(delegate(Slot slot)
+            {
+                slot(parameters);
 
-                                   _slots.Remove(slot);
-                                   _autoDisconnectSlots.Remove(slot);
-                               });
+                // disconect one-time receivers
+                if (!_autoDisconnectSlots.Contains(slot))
+                    return;
+
+                _slots.Remove(slot);
+                _autoDisconnectSlots.Remove(slot);
+            });
         }
 
         public bool HasSlot(Slot slot)
