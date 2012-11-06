@@ -80,6 +80,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\ITouchEventDispatcherPlugin.cs" />
+    <Compile Include="Events\TouchEvent.cs" />
+    <Compile Include="Managers\TouchEventDispatcher.cs" />
+    <Compile Include="Managers\System\TouchProcessor.cs" />
     <Compile Include="Reflection\GlobalMemberTypeCache.cs" />
     <Compile Include="Signals\Slot.cs" />
     <Compile Include="Tasks\AsyncRequestHandler.cs" />
@@ -112,7 +116,7 @@
     <Compile Include="Tasks\Token.cs" />
     <Compile Include="Tasks\ITask.cs" />
     <Compile Include="Tasks\IProgress.cs" />
-    <Compile Include="Managers\SystemEventManager.cs" />
+    <Compile Include="Managers\SystemEventDispatcher.cs" />
     <Compile Include="Managers\System\ScreenSizeProcessor.cs" />
     <Compile Include="Managers\System\MousePositionProcessor.cs" />
     <Compile Include="Managers\System\IUnityEventProcessor.cs" />
@@ -162,6 +166,7 @@
     <Compile Include="Util\Timer\Timer.cs" />
     <Compile Include="Util\Timer\TimerException.cs" />
     <Compile Include="Util\StageUtil.cs" />
+    <Compile Include="Util\TypeUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

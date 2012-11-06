@@ -27,6 +27,9 @@ THE SOFTWARE.
 #endregion License
 
 using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
+using UnityEngine;
 
 namespace eDriven.Core.Signals
 {
@@ -44,7 +47,7 @@ namespace eDriven.Core.Signals
 
         #endregion
 
-        #region Implementation of IStrictSignal
+        #region Implementation of ISignal
 
         public int NumSlots
         {
@@ -57,10 +60,14 @@ namespace eDriven.Core.Signals
         {
             if (_slots.Contains(slot))
                 return; // do nothing
-
+            
             _slots.Add(slot);
             if (autoDisconnect)
                 _autoDisconnectSlots.Add(slot);
+        }
+        public void Connect(Slot slot, bool autoDisconnect)
+        {
+            Connect(slot, 50, autoDisconnect);
         }
         public void Connect(Slot slot, int priority)
         {
@@ -83,19 +90,26 @@ namespace eDriven.Core.Signals
             return _slots.Remove(slot);
         }
 
+        private readonly List<Slot> _toRemove = new List<Slot>();
         public void Emit(params object[] parameters)
         {
             _slots.ForEach(delegate(Slot slot)
             {
-                slot(parameters);
+                slot.Invoke(parameters);
 
                 // disconect one-time receivers
                 if (!_autoDisconnectSlots.Contains(slot))
                     return;
 
-                _slots.Remove(slot);
+                _toRemove.Add(slot);
                 _autoDisconnectSlots.Remove(slot);
             });
+
+            _toRemove.ForEach(delegate(Slot slot)
+            {
+                _slots.Remove(slot);
+            });
+            _toRemove.Clear();
         }
 
         public bool HasSlot(Slot slot)
@@ -104,5 +118,43 @@ namespace eDriven.Core.Signals
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            _slots.ForEach(delegate (Slot slot)
+                               {
+                                   sb.AppendLine(DescribeSlot(slot));
+                               });
+            if (sb.ToString() == string.Empty)
+                sb.Append("-none-");
+
+            return string.Format(@"Slots ({0})
+--------------------------------------------
+{1}
+--------------------------------------------", _slots.Count, sb);
+        }
+
+        /// <summary>
+        /// Returns Signal method info
+        /// </summary>
+        /// <param name="signal"></param>
+        /// <returns></returns>
+        public string DescribeSignal(Signal signal)
+        {
+            return string.Format("Signal: {0}", signal.GetType());
+        }
+
+        /// <summary>
+        /// Returns Slot method info
+        /// </summary>
+        /// <param name="slot"></param>
+        /// <returns></returns>
+        public string DescribeSlot(Slot slot)
+        {
+            bool isAuto = _autoDisconnectSlots.Contains(slot);
+            MethodInfo mi = slot.Method;
+            return string.Format("{0} -> {1}{2}", mi.ReflectedType, mi.Name, isAuto ? " [auto]" : string.Empty);
+        }
     }
 }

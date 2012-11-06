@@ -1,4 +1,6 @@
-﻿/*
+#region License
+
+/*
  
 Copyright (c) 2012 Danko Kozar
 
@@ -22,23 +24,46 @@ THE SOFTWARE.
  
 */
 
-namespace eDriven.Core
+#endregion License
+
+using UnityEngine;
+using Event=UnityEngine.Event;
+
+namespace eDriven.Core.Managers
 {
     /// <summary>
-    /// The info class
+    /// Processes raw touch events
     /// </summary>
-    public sealed class Info
+    /// <remarks>Conceived and coded by Danko Kozar</remarks>
+    internal class TouchProcessor : UnityEventProcessorBase
     {
-        public const string AssemblyName = "eDriven.Core";
-        public const string AssemblyVersion = "1.0.5";
-        public const string Author = "Danko Kozar";
-        public const string Copyright = "Copyright (c) 2012 Danko Kozar";
-        public const string Web = "edriven.dankokozar.com";
+#if DEBUG
+        public static bool DebugMode;
+#endif
 
-        public override string ToString()
+        public TouchProcessor(SystemManager systemManager)
         {
-            return string.Format(@"[{0} {1}]
-[by {2}, (C) {3}, {4}]", AssemblyName, AssemblyVersion, Author, Copyright, Web);
+            SystemManager = systemManager;
+        }
+
+        public override void Process(Event e)
+        {
+#if DEBUG
+            if (DebugMode)
+                Debug.Log("TouchProcessor.Process");
+#endif
+            Touch[] touches = Input.touches;
+
+            if (touches.Length > 0)
+            {
+#if DEBUG
+                if (DebugMode)
+                    Debug.Log("touches.Length:" + touches.Length);
+#endif
+
+                if (SystemManager.Instance.TouchSignal.Connected)
+                    SystemManager.Instance.TouchSignal.Emit(touches); // emmiting Touch[] as params
+            }
         }
     }
 }

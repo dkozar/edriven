@@ -119,6 +119,17 @@ namespace eDriven.Core.Util
             return new T();
         }
 
+        /// <summary>
+        /// Returns the current count
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return _queue.Count;
+            }
+        }
+
         public override string ToString()
         {
             return string.Format(@"ObjectPool<{0}> [Holding: {1}/{2}]", typeof(T), _queue.Count, PoolSize);

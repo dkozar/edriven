@@ -29,9 +29,6 @@ THE SOFTWARE.
 using eDriven.Core.Events;
 using eDriven.Core.Geom;
 using UnityEngine;
-using Event=UnityEngine.Event;
-using EventHandler=eDriven.Core.Events.EventHandler;
-using MulticastDelegate=eDriven.Core.Events.MulticastDelegate;
 
 namespace eDriven.Core.Managers
 {
@@ -93,28 +90,7 @@ namespace eDriven.Core.Managers
             if (DebugMode)
                 Debug.Log(string.Format("Initializing SystemEventDispatcher"));
 #endif
-
-            // processes queued events on SystemEventDispatcher
-            //_updateSlot = new UpdateSlot(this);
             SystemManager.Instance.UpdateSignal.Connect(UpdateSlot);
-
-            // NOTE: MulticastDelegates seem not to work when subscribing from KeyboardMapper!
-            // Further examination needed...
-
-            // update
-            //Update = new MulticastDelegate(this, UPDATE);
-
-            // fixed update
-            //FixedUpdate = new MulticastDelegate(this, FIXED_UPDATE);
-
-            // late update
-            //LateUpdate = new MulticastDelegate(this, LATE_UPDATE);
-
-            // input processed
-            //InputProcessed = new MulticastDelegate(this, INPUT);
-
-            // disposing
-            //Disposing = new MulticastDelegate(this, DISPOSING); 
         }
 
         #endregion
@@ -132,7 +108,7 @@ namespace eDriven.Core.Managers
         {
             MouseEvent me = new MouseEvent(MouseEvent.MOUSE_MOVE)
                                 {
-                                    CurrentEvent = (Event)parameters[0],
+                                    CurrentEvent = (UnityEngine.Event)parameters[0],
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -142,7 +118,7 @@ namespace eDriven.Core.Managers
         {
             MouseEvent me = new MouseEvent(MouseEvent.MOUSE_DRAG)
                                 {
-                                    CurrentEvent = (Event)parameters[0],
+                                    CurrentEvent = (UnityEngine.Event)parameters[0],
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -152,7 +128,7 @@ namespace eDriven.Core.Managers
         {
             MouseEvent me = new MouseEvent(MouseEvent.MOUSE_DOWN)
                                 {
-                                    CurrentEvent = (Event)parameters[0],
+                                    CurrentEvent = (UnityEngine.Event)parameters[0],
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -164,7 +140,7 @@ namespace eDriven.Core.Managers
 
             MouseEvent me = new MouseEvent(MouseEvent.MOUSE_UP)
                                 {
-                                    CurrentEvent = (Event)parameters[0],
+                                    CurrentEvent = (UnityEngine.Event)parameters[0],
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -174,7 +150,7 @@ namespace eDriven.Core.Managers
         {
             MouseEvent me = new MouseEvent(MouseEvent.RIGHT_MOUSE_DOWN)
                                 {
-                                    CurrentEvent = (Event)parameters[0],
+                                    CurrentEvent = (UnityEngine.Event)parameters[0],
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -184,7 +160,7 @@ namespace eDriven.Core.Managers
         {
             MouseEvent me = new MouseEvent(MouseEvent.RIGHT_MOUSE_UP)
                                 {
-                                    CurrentEvent = (Event)parameters[0],
+                                    CurrentEvent = (UnityEngine.Event)parameters[0],
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -194,7 +170,7 @@ namespace eDriven.Core.Managers
         {
             MouseEvent me = new MouseEvent(MouseEvent.MIDDLE_MOUSE_DOWN)
                                 {
-                                    CurrentEvent = (Event)parameters[0],
+                                    CurrentEvent = (UnityEngine.Event)parameters[0],
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -204,7 +180,7 @@ namespace eDriven.Core.Managers
         {
             MouseEvent me = new MouseEvent(MouseEvent.MIDDLE_MOUSE_UP)
                                 {
-                                    CurrentEvent = (Event)parameters[0],
+                                    CurrentEvent = (UnityEngine.Event)parameters[0],
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -214,7 +190,7 @@ namespace eDriven.Core.Managers
         {
             MouseEvent me = new MouseEvent(MouseEvent.MOUSE_WHEEL)
                                 {
-                                    CurrentEvent = (Event)parameters[0],
+                                    CurrentEvent = (UnityEngine.Event)parameters[0],
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -222,7 +198,7 @@ namespace eDriven.Core.Managers
 
         private void KeyDownSlot(params object[] parameters)
         {
-            Event e = (Event)parameters[0];
+            UnityEngine.Event e = (UnityEngine.Event)parameters[0];
 
             KeyboardEvent ke = new KeyboardEvent(KeyboardEvent.KEY_DOWN)
                                    {
@@ -237,7 +213,7 @@ namespace eDriven.Core.Managers
 
         private void KeyUpSlot(params object[] parameters)
         {
-            Event e = (Event)parameters[0];
+            UnityEngine.Event e = (UnityEngine.Event)parameters[0];
 
             KeyboardEvent ke = new KeyboardEvent(KeyboardEvent.KEY_UP)
                                    {
@@ -249,107 +225,6 @@ namespace eDriven.Core.Managers
                                    };
             DispatchEvent(ke, false);
         }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Enabled if true
-        /// </summary>
-        public static bool Enabled = true; // TRUE by default
-        
-        /// <summary>
-        /// Publicly available screen size
-        /// </summary>
-        public Point ScreenSize = new Point();
-
-        #region Optimization flags
-
-        /// <summary>
-        /// OnGUI heartbeat
-        /// </summary>
-        //public static bool DispatchInputProcessed = true;
-
-        /// <summary>
-        /// Update heartbeat
-        /// </summary>
-        //public static bool DispatchUpdate; // FALSE by default
-
-        /// <summary>
-        /// LateUpdate heartbeat
-        /// </summary>
-        //public static bool DispatchLateUpdate; // FALSE by default
-
-        /// <summary>
-        /// FixedUpdate heartbeat
-        /// </summary>
-        //public static bool DispatchFixedUpdate; // FALSE by default
-
-        ///// <summary>
-        ///// Should keyboard events be dispatched
-        ///// </summary>
-        //public static bool DispatchKeyboardEvents = true;
-
-        ///// <summary>
-        ///// Should mouse events be dispatched
-        ///// </summary>
-        //public static bool DispatchMouseEvents = true;
-
-        ///// <summary>
-        ///// Should mouse position change events be dispatched
-        ///// </summary>
-        //public static bool DispatchMousePositionChange = true;
-
-        ///// <summary>
-        ///// Should screen resize events be dispatched
-        ///// </summary>
-        //public static bool DispatchScreenResize = true;
-        
-        #endregion
-
-        #endregion
-        
-        #region Event definitions
-
-        // ReSharper disable InconsistentNaming
-        
-        /// <summary>
-        /// Update event
-        /// </summary>
-        //public const string UPDATE = "UPDATE";
-
-        /// <summary>
-        /// Fixed update event
-        /// </summary>
-        //public const string FIXED_UPDATE = "FIXED_UPDATE";
-
-        /// <summary>
-        /// Late update event
-        /// </summary>
-        //public const string LATE_UPDATE = "LATE_UPDATE";
-
-        /// <summary>
-        /// Input processed event
-        /// </summary>
-        //public const string INPUT = "INPUT";
-
-        /// <summary>
-        /// The event signalizing a disposal to interested parties
-        /// </summary>
-        //public const string DISPOSING = "DISPOSING";
-
-        /// <summary>
-        /// The event signalizing scene change to interested parties
-        /// </summary>
-        public const string SCENE_CHANGE = "SCENE_CHANGE";
-
-        /// <summary>
-        /// The event signalizing level load to interested parties
-        /// </summary>
-        public const string LEVEL_LOADED = "LEVEL_LOADED";
-        
-        // ReSharper restore InconsistentNaming
 
         #endregion
 

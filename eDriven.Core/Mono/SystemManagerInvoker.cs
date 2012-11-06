@@ -49,7 +49,9 @@ namespace eDriven.Core.Mono
         [Obfuscation(Exclude = true)]
         void Awake()
         {
+#if !UNITY_EDITOR && (UNITY_IPHONE || UNITY_ANDROID)
             useGUILayout = false;
+#endif
         }
 
         [Obfuscation(Exclude = true)]

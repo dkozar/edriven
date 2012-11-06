@@ -26,14 +26,14 @@ THE SOFTWARE.
 
 #endregion License
 
-using UnityEngine;
-
 namespace eDriven.Core.Events
 {
     /// <summary>
-    /// Keyboard event
+    /// Touch event
+    /// This event bubbles by default
     /// </summary>
-    public class KeyboardEvent : InputEvent
+    /// <remarks>Coded by Danko Kozar</remarks>
+    public class TouchEvent : Event
     {
         #region Constants
 
@@ -41,22 +41,36 @@ namespace eDriven.Core.Events
         /// <summary>
         /// Constant
         /// </summary>
-        public const string KEY_DOWN = "keyDown";
+        public const string TOUCH = "touch";
 
         /// <summary>
         /// Constant
         /// </summary>
-        public const string KEY_UP = "keyUp";
-// ReSharper restore InconsistentNaming
-
-        #endregion
-
-        #region Properties
+        public const string SINGLE_TOUCH = "singleTouch";
 
         /// <summary>
-        /// Key code
+        /// Constant
         /// </summary>
-        public KeyCode KeyCode;
+        public const string DOUBLE_TOUCH = "doubleTouch";
+
+        /// <summary>
+        /// Constant
+        /// </summary>
+        public const string TRIPPLE_TOUCH = "trippleTouch";
+
+        
+        /// <summary>
+        /// Constant
+        /// </summary>
+        public const string QUADRUPLE_TOUCH = "quadrupleTouch";
+
+        
+        /// <summary>
+        /// Constant
+        /// </summary>
+        public const string QUINTUPLE_TOUCH = "quintupleTouch";
+
+// ReSharper restore InconsistentNaming
 
         #endregion
 
@@ -65,7 +79,7 @@ namespace eDriven.Core.Events
         /// <summary>
         /// Constructor
         /// </summary>
-        public KeyboardEvent(string type) : base(type)
+        public TouchEvent(string type) : base(type)
         {
             Bubbles = true;
         }
@@ -73,7 +87,7 @@ namespace eDriven.Core.Events
         /// <summary>
         /// Constructor
         /// </summary>
-        public KeyboardEvent(string type, object target) : base(type, target)
+        public TouchEvent(string type, object target) : base(type, target)
         {
             Bubbles = true;
         }
@@ -81,14 +95,14 @@ namespace eDriven.Core.Events
         /// <summary>
         /// Constructor
         /// </summary>
-        public KeyboardEvent(string type, bool bubbles) : base(type, bubbles)
+        public TouchEvent(string type, bool bubbles) : base(type, bubbles)
         {
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public KeyboardEvent(string type, bool bubbles, bool cancelable)
+        public TouchEvent(string type, bool bubbles, bool cancelable)
             : base(type, bubbles, cancelable)
         {
         }
@@ -97,13 +111,7 @@ namespace eDriven.Core.Events
 
         public override string ToString()
         {
-            //return string.Format("KeyCode: {0}, {1}", KeyCode, base.ToString());
-            return string.Format("{0}{1}{2}{3}",
-                KeyCode,
-                Control ? " + Control" : string.Empty,
-                Shift ? " + Shift" : string.Empty,
-                Alt ? " + Alt" : string.Empty
-            );
+            return string.Format("TouchEvent [{0}]", Type);
         }
     }
 }

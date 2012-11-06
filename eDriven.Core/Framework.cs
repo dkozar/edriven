@@ -23,6 +23,8 @@ THE SOFTWARE.
 */
 
 using System;
+using eDriven.Core.Managers;
+using eDriven.Core.Util;
 using UnityEngine;
 
 namespace eDriven.Core
@@ -43,6 +45,11 @@ namespace eDriven.Core
         /// The name of the auto-generated framework object
         /// </summary>
         public static string FrameworkObjectName = "$_eDriven_Framework";
+
+        /// <summary>
+        /// Do not write onfo messages to log
+        /// </summary>
+        public static bool EnableInfoMessages = true;
 
         /// <summary>
         /// Parent object for the auto-generated framework object
@@ -91,7 +98,8 @@ namespace eDriven.Core
                      * This is the only line I'd like to have written in Your app log :)
                      * It's interesting to see if application uses the framework
                      * */
-                    Log(string.Format(@"instantiated {0}", new Info()));
+                    if (EnableInfoMessages)
+                        Log(string.Format(@"instantiated {0}", new Info()));
 
                     fo.name = FrameworkObjectName;
 
@@ -166,6 +174,27 @@ namespace eDriven.Core
 //                Debug.Log("Framework object destroyed");
 //#endif
 //        }
+
+        public static void LoadLevel(int id)
+        {
+            SystemManager.Instance.Dispose();
+            Application.LoadLevel(id);
+            //Timer t = new Timer(1, 1);
+            //t.Start();
+            //t.Complete += delegate { Application.LoadLevel(id); };
+        }
+
+        public static void LoadLevelAdditive(int id)
+        {
+            LoadLevelAdditive(id, false);
+        }
+        
+        public static void LoadLevelAdditive(int id, bool disposeSystemManager)
+        {
+            if (disposeSystemManager)
+                SystemManager.Instance.Dispose();
+            Application.LoadLevelAdditive(id);
+        }
 
         private static void Log(string text)
         {

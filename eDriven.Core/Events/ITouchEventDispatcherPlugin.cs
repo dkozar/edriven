@@ -1,4 +1,6 @@
-﻿/*
+﻿#region License
+
+/*
  
 Copyright (c) 2012 Danko Kozar
 
@@ -22,23 +24,29 @@ THE SOFTWARE.
  
 */
 
-namespace eDriven.Core
+#endregion License
+
+using System;
+using UnityEngine;
+
+namespace eDriven.Core.Events
 {
     /// <summary>
-    /// The info class
+    /// Plugin that is a gesture recognizer
+    /// Dispatches events from TouchEventDispatcher 
     /// </summary>
-    public sealed class Info
+    public interface ITouchEventDispatcherPlugin : IDisposable
     {
-        public const string AssemblyName = "eDriven.Core";
-        public const string AssemblyVersion = "1.0.5";
-        public const string Author = "Danko Kozar";
-        public const string Copyright = "Copyright (c) 2012 Danko Kozar";
-        public const string Web = "edriven.dankokozar.com";
+        /// <summary>
+        /// Initializes the plugin
+        /// </summary>
+        /// <param name="component"></param>
+        void Initialize(IEventDispatcher component);
 
-        public override string ToString()
-        {
-            return string.Format(@"[{0} {1}]
-[by {2}, (C) {3}, {4}]", AssemblyName, AssemblyVersion, Author, Copyright, Web);
-        }
+        /// <summary>
+        /// Processes touches
+        /// </summary>
+        /// <param name="touches"></param>
+        void Process(Touch[] touches);
     }
 }

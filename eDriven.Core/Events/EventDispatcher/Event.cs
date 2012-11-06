@@ -154,7 +154,6 @@ namespace eDriven.Core.Events
         /// </summary>
         public virtual void PreventDefault()
         {
-            //if (Cancelable)
             DefaultPrevented = true;
         }
 

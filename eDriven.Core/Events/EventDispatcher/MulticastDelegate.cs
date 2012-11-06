@@ -65,6 +65,30 @@ namespace eDriven.Core.Events
 
         #endregion
 
+        #region Editor entries
+
+        /// <summary>
+        /// Editor entry
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <returns></returns>
+        public void AddListener(EventHandler handler)
+        {
+            _dispatcher.AddEventListener(_eventType, handler, EventPhase.Target | EventPhase.Bubbling); // could not be used for capture phase
+        }
+
+        /// <summary>
+        /// Editor entry
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <returns></returns>
+        public void RemoveListener(EventHandler handler)
+        {
+            _dispatcher.RemoveEventListener(_eventType, handler, EventPhase.Target | EventPhase.Bubbling); // could not be used for capture phase
+        }
+
+        #endregion
+
         #region Operator overloads
 
         /// <summary>

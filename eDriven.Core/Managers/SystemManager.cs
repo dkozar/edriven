@@ -40,7 +40,7 @@ namespace eDriven.Core.Managers
     /// 3) Screen resize
     /// It emits signals to interested components 
     /// This Singleton is a central place for emiting input signals
-    /// If events needed, use SystemEventManager Singleton
+    /// If events needed, use SystemEventDispatcher Singleton
     /// </summary>
     /// <remarks>Conceived and coded by Danko Kozar</remarks>
     public sealed class SystemManager
@@ -120,8 +120,8 @@ namespace eDriven.Core.Managers
             FixedUpdateSignal = new Signal();
             UpdateSignal = new Signal();
             LateUpdateSignal = new Signal();
-            RenderSignal = new Signal();
             PreRenderSignal = new Signal();
+            RenderSignal = new Signal();
             ResizeSignal = new Signal();
             DisposingSignal = new Signal();
             LevelLoadedSignal = new Signal();
@@ -143,12 +143,15 @@ namespace eDriven.Core.Managers
             KeyDownSignal = new Signal();
             KeyUpSignal = new Signal();
 
+            TouchSignal = new Signal();
+
             /**
              * 3) Instantiate processors
              * */
             _keyboardProcessor = new KeyboardProcessor(this);
             _mouseProcessor = new MouseProcessor(this);
             _mousePositionProcessor = new MousePositionProcessor(this);
+            _touchProcessor = new TouchProcessor(this);
             _screenSizeProcessor = new ScreenSizeProcessor(this);
         }
 
@@ -161,10 +164,15 @@ namespace eDriven.Core.Managers
         /// </summary>
         public static bool Enabled = true; // TRUE by default
         
+        private Point _screenSize = new Point();
         /// <summary>
         /// Publicly available screen size
         /// </summary>
-        public Point ScreenSize = new Point();
+        public Point ScreenSize
+        {
+            get { return _screenSize; }
+            internal set { _screenSize = value; }
+        }
 
         /// <summary>
         /// Publicly available mouse position
@@ -178,6 +186,7 @@ namespace eDriven.Core.Managers
         private KeyboardProcessor _keyboardProcessor;
         private MouseProcessor _mouseProcessor;
         private MousePositionProcessor _mousePositionProcessor;
+        private TouchProcessor _touchProcessor;
         private ScreenSizeProcessor _screenSizeProcessor;
 
         #endregion
@@ -284,6 +293,11 @@ namespace eDriven.Core.Managers
         /// </summary>
         public Signal KeyUpSignal { get; private set; }
 
+        /// <summary>
+        /// Touch
+        /// </summary>
+        public Signal TouchSignal { get; private set; }
+
         #endregion
 
         #region Methods
@@ -344,6 +358,8 @@ namespace eDriven.Core.Managers
 
             _mousePositionProcessor.Process(null);
 
+            _touchProcessor.Process(null);
+
             UpdateSignal.Emit();
         }
 
@@ -377,9 +393,7 @@ namespace eDriven.Core.Managers
         public void Dispose()
         {
             DisposingSignal.Emit();
-
-            //Framework.Reset();
-
+            
             // trigger invoker initialization in later time
             _instance = null;
         }

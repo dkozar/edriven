@@ -89,9 +89,9 @@ namespace eDriven.Core.Control.Keyboard
             /**
              * Subscribe to system event manager key events
              * */
-            SystemEventManager.Instance.AddEventListener(KeyboardEvent.KEY_DOWN, Instance.OnKeyEvent);
-            SystemEventManager.Instance.AddEventListener(KeyboardEvent.KEY_UP, Instance.OnKeyEvent);
-            SystemManager.Instance.DisposingSignal.Connect(DisposingSlot);
+            SystemEventDispatcher.Instance.AddEventListener(KeyboardEvent.KEY_DOWN, Instance.OnKeyEvent);
+            SystemEventDispatcher.Instance.AddEventListener(KeyboardEvent.KEY_UP, Instance.OnKeyEvent);
+            SystemManager.Instance.DisposingSignal.Connect(DisposingSlot, true);
         }
 
         #endregion
@@ -311,9 +311,8 @@ namespace eDriven.Core.Control.Keyboard
 
             _mappings.Clear();
 
-            SystemEventManager.Instance.AddEventListener(KeyboardEvent.KEY_DOWN, Instance.OnKeyEvent);
-            SystemEventManager.Instance.AddEventListener(KeyboardEvent.KEY_UP, Instance.OnKeyEvent);
-            SystemManager.Instance.DisposingSignal.Disconnect(DisposingSlot);
+            SystemEventDispatcher.Instance.RemoveEventListener(KeyboardEvent.KEY_DOWN, Instance.OnKeyEvent);
+            SystemEventDispatcher.Instance.RemoveEventListener(KeyboardEvent.KEY_UP, Instance.OnKeyEvent);
 
             _instance = null;
         }
