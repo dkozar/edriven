@@ -82,6 +82,28 @@ namespace eDriven.Core.Geom
             }
         }
 
+        /// <summary>
+        /// Returns rectangle center point (used for rotation)
+        /// </summary>
+        public Point Center
+        {
+            get
+            {
+                return new Point(_x + _width/2, _y + _width/2);
+            }
+        }
+
+        private Vector2 _center;
+        public Vector2 CenterAsVector2
+        {
+            get
+            {
+                _center.x = _x + _width/2;
+                _center.y = _y + _height/2;
+                return _center;   
+            }
+        }
+
         #region Normal
 
         private float _x;

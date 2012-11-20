@@ -84,16 +84,15 @@ namespace eDriven.Core.Events
         void RemoveAllListeners(string eventType);
 
         /// <summary>
-        /// Checks whether the EventDispatcher object has any listeners registered for a specific type of event. 
+        /// Checks whether the EventDispatcher has any listeners registered for a specific type of event
         /// </summary>
         /// <param name="eventType"></param>
         /// <returns></returns>
         bool HasEventListener(string eventType);
 
         /// <summary>
-        /// Checks whether an event listener is registered with this EventDispatcher object or any of its ancestors for the specified event type. 
-        /// This method returns true if an event listener is triggered during any phase of the event flow when an event of the specified type is dispatched to this EventDispatcher object or any of its descendants.
-        /// The difference between HasEventListener() and HasBubblingEventListener() is that HasEventListener() examines only the object to which it belongs, whereas HasBubblingEventListener() examines the entire event flow for the event specified by the type parameter.
+        /// Checks whether an event listener is registered with this EventDispatcher or any of its ancestors for the specified event type
+        /// Note: the implementation of event bubbling depends of the use-case and is not implemented by eDriven.Core
         /// </summary>
         /// <param name="eventType"></param>
         /// <returns></returns>
