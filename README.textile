@@ -7,16 +7,16 @@ h2. Author: Danko Kozar
 h2. Concept
 
  * eDriven framework is the result of 10 years of programming experience, self-education and research.
- * Basically, it is the adapter for Unity to get it to work as an asynchronous system.
- * It is inspired by RIA (Rich Internet Applications) frameworks, such as Apache Flex and other Actionscript and Javascript frameworks.
+ * It is the adapter for Unity to get it to work as an asynchronous system.
+ * It's inspired by RIA (Rich Internet Applications) frameworks, such as Apache Flex and other Actionscript and Javascript frameworks.
  * The idea behind building a framework was to bring the event-driven programming paradigm to Unity.
- * There has been a number of libraries for Unity, but I decided to go with my own. The reasoning behind this was I wanted to build additional libraries upon my event-dispatching system and wanted the total control.
+ * There have been a number of libraries for Unity, but I decided to go with my own. That's because I wanted to build additional libraries upon my event-dispatching system and wanted the total control.
  * .NET framework events were not appropriate.
  * There are two parallel event-dispatching systems inside eDriven: 
     1) Signals
 	2) Events
- * Signals are inspired by "Robert Panner's Signals":https://github.com/robertpenner/as3-signals and are used for framework internals. Signals are faster then events because there's no instantiation involved. Also, your class isn't required to inherit some base (dispatcher) class.
- * Events are more common and are inspired by "DOM Level 3 Events":http://www.w3.org/TR/DOM-Level-3-Events/. They support event bubbling, which is an important feature for GUI. The class that needs to dispatch events must inherit from EventDispatcher class.
+ * Signals are inspired by "Robert Penner's Signals":https://github.com/robertpenner/as3-signals and are used for framework internals. Signals are faster than events because there's no instantiation involved. Also, your class isn't required to inherit some base (dispatcher) class.
+ * Events are more common and are inspired by "DOM Level 3 Events":http://www.w3.org/TR/DOM-Level-3-Events/. They support event bubbling, which is the important feature for GUI. The class that needs to dispatch events must inherit from EventDispatcher class.
 
 h2. Event syntax
 
