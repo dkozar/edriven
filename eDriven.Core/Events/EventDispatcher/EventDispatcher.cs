@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using UnityEngine; // debugging only
+using UnityEngine;
 
 namespace eDriven.Core.Events
 {
@@ -118,7 +118,7 @@ namespace eDriven.Core.Events
         /// <param name="handler">Event handler (function)</param>
         public virtual void AddEventListener(string eventType, EventHandler handler)
         {
-            AddEventListener(eventType, handler, EventPhase.Target/* | EventPhase.Bubbling*/);
+            AddEventListener(eventType, handler, EventPhase.Target | EventPhase.Bubbling); // | EventPhase.Bubbling added back 20121216
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace eDriven.Core.Events
         /// <param name="handler">Event handler (function)</param>
         public virtual void RemoveEventListener(string eventType, EventHandler handler)
         {
-            RemoveEventListener(eventType, handler, EventPhase.Target/* | EventPhase.Bubbling*/); // this is the default
+            RemoveEventListener(eventType, handler, EventPhase.Target | EventPhase.Bubbling); // this is the default // | EventPhase.Bubbling added back 20121216
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace eDriven.Core.Events
         /// </summary>
         /// <param name="e">Event to dispatch</param>
         /// <remarks>Conceived by Danko Kozar</remarks>
-        public virtual void ExecuteListeners(Event e)
+        public void ExecuteListeners(Event e)
         {
             // return if event canceled
             if (e.Canceled)

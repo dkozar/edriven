@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 using System;
 
-namespace eDriven.Networking.Serialization
+namespace eDriven.Core.Serialization
 {
     /// <summary>
     /// The interface that should be implemented by custom serializer or 3rd party serializer wrapper

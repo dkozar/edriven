@@ -30,9 +30,9 @@ namespace eDriven.Core
     public sealed class Info
     {
         public const string AssemblyName = "eDriven.Core";
-        public const string AssemblyVersion = "1.0.5";
+        public const string AssemblyVersion = "1.0.7";
         public const string Author = "Danko Kozar";
-        public const string Copyright = "Copyright (c) 2012 Danko Kozar";
+        public const string Copyright = "Copyright (c) Danko Kozar 2010-2013";
         public const string Web = "edriven.dankokozar.com";
 
         public override string ToString()

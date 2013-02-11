@@ -33,26 +33,28 @@ using UnityEngine;
 namespace eDriven.Core.Mono
 {
     /// <summary>
-    /// Invokes vital functions of SystemManager<br/>
+    /// Invokes OnGUI functions of SystemManager<br/>
     /// Since Unity doesn't offer the "master clock" functionality, we have to steal it from one of the GameObjects<br/>
-    /// This component is created lazily by SystemManager itself the first time it is being referenced
+    /// This component is created lazily by SystemManager itself the first time it is being referenced<br/><br/>
+    /// This class was created to separate OnGUI calls from the rest of the processing.<br/>
+    /// This way the whole script could be disabled when OnGUI processing not needed, thus saving performance.
     /// </summary>
     /// <remarks>Conceived and coded by Danko Kozar</remarks>
     [Obfuscation(Exclude = true)]
-    public sealed class SystemManagerInvoker : MonoBehaviour
+    public sealed class SystemManagerOnGuiInvoker : MonoBehaviour
     {
         /// <summary>
         /// Reference to system manager instance
         /// </summary>
         private SystemManager _systemManager;
 
-//        [Obfuscation(Exclude = true)]
-//        void Awake()
-//        {
-//#if !UNITY_EDITOR && (UNITY_IPHONE || UNITY_ANDROID)
-//            useGUILayout = false;
-//#endif
-//        }
+        [Obfuscation(Exclude = true)]
+        void Awake()
+        {
+#if !UNITY_EDITOR && (UNITY_IPHONE || UNITY_ANDROID)
+            useGUILayout = false;
+#endif
+        }
 
         [Obfuscation(Exclude = true)]
         void Start()
@@ -60,53 +62,18 @@ namespace eDriven.Core.Mono
             _systemManager = SystemManager.Instance;
         }
 
+// ReSharper disable InconsistentNaming
         [Obfuscation(Exclude = true)]
-        void Update()
+        void OnGUI()
+// ReSharper restore InconsistentNaming
         {
-            _systemManager.ProcessUpdate();
+            _systemManager.ProcessInput();
         }
-
-        [Obfuscation(Exclude = true)]
-        void FixedUpdate()
-        {
-            _systemManager.ProcessFixedUpdate();
-        }
-
-        [Obfuscation(Exclude = true)]
-        void LateUpdate()
-        {
-            _systemManager.ProcessLateUpdate();
-        }
-
-//// ReSharper disable InconsistentNaming
-//        [Obfuscation(Exclude = true)]
-//        void OnGUI()
-//// ReSharper restore InconsistentNaming
-//        {
-//            _systemManager.ProcessInput();
-//        }
 
         [Obfuscation(Exclude = true)]
         void OnEnable()
         {
             _systemManager = SystemManager.Instance;
-        }
-
-        [Obfuscation(Exclude = true)]
-        void OnDisable()
-        {
-            if (null != _systemManager)
-            {
-                if (_systemManager.SceneChangeSignal.Connected)
-                    _systemManager.SceneChangeSignal.Emit();
-            }
-        }
-
-        [Obfuscation(Exclude = true)]
-        void OnLevelWasLoaded()
-        {
-            if (_systemManager.LevelLoadedSignal.Connected)
-                _systemManager.LevelLoadedSignal.Emit();
         }
     }
 }

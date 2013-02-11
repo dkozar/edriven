@@ -105,5 +105,13 @@ namespace eDriven.Core.Util
             }
             _dict.Clear();
         }
+
+        /// <summary>
+        /// Gets count
+        /// </summary>
+        public int Count(Type key)
+        {
+            return _dict[key].Count;
+        }
     }
 }

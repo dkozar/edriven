@@ -29,7 +29,6 @@ THE SOFTWARE.
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using UnityEngine;
 
 namespace eDriven.Core.Signals
 {
@@ -64,7 +63,10 @@ namespace eDriven.Core.Signals
             _slots.Add(slot);
             if (autoDisconnect)
                 _autoDisconnectSlots.Add(slot);
+
+            SlotCountChanged(_slots.Count);
         }
+
         public void Connect(Slot slot, bool autoDisconnect)
         {
             Connect(slot, 50, autoDisconnect);
@@ -87,7 +89,12 @@ namespace eDriven.Core.Signals
 
         public bool Disconnect(Slot slot)
         {
-            return _slots.Remove(slot);
+            bool removed = _slots.Remove(slot);
+
+            if (removed)
+                SlotCountChanged(_slots.Count);
+
+            return removed;
         }
 
         private readonly List<Slot> _toRemove = new List<Slot>();
@@ -107,7 +114,8 @@ namespace eDriven.Core.Signals
 
             _toRemove.ForEach(delegate(Slot slot)
             {
-                _slots.Remove(slot);
+                //_slots.Remove(slot);
+                Disconnect(slot);
             });
             _toRemove.Clear();
         }
@@ -156,5 +164,12 @@ namespace eDriven.Core.Signals
             MethodInfo mi = slot.Method;
             return string.Format("{0} -> {1}{2}", mi.ReflectedType, mi.Name, isAuto ? " [auto]" : string.Empty);
         }
+
+        /// <summary>
+        /// Use this method to add the additional functionality when needed to react on the subscriber change
+        /// </summary>
+// ReSharper disable UnusedParameter.Global
+        protected virtual void SlotCountChanged(int count) { }
+// ReSharper restore UnusedParameter.Global
     }
 }

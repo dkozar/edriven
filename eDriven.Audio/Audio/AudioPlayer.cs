@@ -39,11 +39,16 @@ namespace eDriven.Audio
     /// </summary>
     [AddComponentMenu("eDriven/Audio/AudioPlayer")]
 
-    [RequireComponent(typeof(AudioSource))]
-    [RequireComponent(typeof(AudioToken))]
+    //[RequireComponent(typeof(AudioSource))]
+    //[RequireComponent(typeof(AudioToken))]
 
     public class AudioPlayer : MonoBehaviour
     {
+        /// <summary>
+        /// True to play at current camera
+        /// </summary>
+        public bool PlayAtMainCamera;
+
         /// <summary>
         /// True for sound enabled
         /// </summary>
@@ -52,7 +57,7 @@ namespace eDriven.Audio
         /// <summary>
         /// Volume
         /// </summary>
-        public float Volume = 1.0f;
+        public float Volume = 0.5f;
 
         /// <summary>
         /// Pitch
@@ -72,6 +77,17 @@ namespace eDriven.Audio
 //                Volume = Mathf.Clamp(Volume, 0f, 1f);
 //        }
 
+// ReSharper disable UnusedMember.Local
+        void Start()
+// ReSharper restore UnusedMember.Local
+        {
+            AudioSource source = (AudioSource) FindObjectOfType(typeof(AudioSource));
+            if (null == source)
+            {
+                throw new Exception("No audio source found for AudioPlayerMapper at: " + gameObject.transform);
+            }
+        }
+
         #region Public methods
 
         /// <summary>
@@ -85,11 +101,20 @@ namespace eDriven.Audio
             if (!SoundEnabled)
                 return;
 
+            if (PlayAtMainCamera)
+                ChangePosition();
+
             AudioToken token = PickToken(tokenId);
 
             if (null == token)
             {
                 Debug.LogWarning(string.Format(AudioPlayerException.TokenNotFound, tokenId));
+                return;
+            }
+
+            if (null == token.AudioClip)
+            {
+                Debug.LogWarning(string.Format(AudioPlayerException.TokenAudioClipNotFound, tokenId));
                 return;
             }
 
@@ -109,6 +134,21 @@ namespace eDriven.Audio
             audioSource.maxDistance = token.MaxDistance;
             audioSource.rolloffMode = token.RolloffMode;
             audioSource.Play();
+        }
+
+        private void ChangePosition()
+        {
+            //Debug.Log("Camera.main: " + Camera.main);
+
+            var cam = Camera.main.transform;
+            //Debug.Log("transform.position: " + transform.position);
+
+            var cameraRelativePos = cam.InverseTransformPoint(transform.position);
+            //Debug.Log("cameraRelative: " + cameraRelative);
+            
+            // change position on this transform
+            var p = transform.position;
+            transform.position = new Vector3(p.x - cameraRelativePos.x, p.y - cameraRelativePos.y, p.z - cameraRelativePos.z);
         }
 
         /// <summary>
@@ -249,6 +289,7 @@ namespace eDriven.Audio
         public static string NoAudioSourcesFound = "No AudioSource found";
         public static string NoTokensFound = "No AudioToken found";
         public static string TokenNotFound = "AudioToken with id [{0}] not found";
+        public static string TokenAudioClipNotFound = "AudioToken with id [{0}] has no Audio Clip attached";
         
 // ReSharper disable UnusedMember.Global
         public AudioPlayerException()

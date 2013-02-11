@@ -99,6 +99,26 @@ namespace eDriven.Core.Geom
         }
 
         /// <summary>
+        /// Finds minimum between 2 points
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public Point Min(Point p)
+        {
+            return new Point(Mathf.Min(X, p.X), Mathf.Min(Y, p.Y));
+        }
+
+        /// <summary>
+        /// Finds maximum between 2 points
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public Point Max(Point p)
+        {
+            return new Point(Mathf.Max(X, p.X), Mathf.Max(Y, p.Y));
+        }
+
+        /// <summary>
         /// Converts Vector2 to Point
         /// </summary>
         /// <param name="v"></param>

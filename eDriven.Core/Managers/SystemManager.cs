@@ -26,6 +26,8 @@ THE SOFTWARE.
 
 #endregion License
 
+using System;
+using System.Collections.Generic;
 using eDriven.Core.Geom;
 using eDriven.Core.Mono;
 using eDriven.Core.Signals;
@@ -110,40 +112,51 @@ namespace eDriven.Core.Managers
 #endif
 
             /**
-             * 1) Instantiate SystemManagerInvoker
+             * 1.a) Instantiate SystemManagerInvoker
              * */
             Framework.CreateComponent(typeof(SystemManagerInvoker), true); // exclusive, i.e. allow single instance only
 
             /**
-             * 2) Instantiate signals
+             * 1.b) Instantiate SystemManagerOnGuiInvoker
+             * Keeping reference to it so we could disable it when OnGUI processing not needed
+             * */
+            _onGuiInvoker = (SystemManagerOnGuiInvoker)Framework.CreateComponent(typeof(SystemManagerOnGuiInvoker), true); // exclusive, i.e. allow single instance only
+            _onGuiInvoker.enabled = false; // disable it by default
+
+            /**
+             * 2.a) Instantiate signals
              * */
             FixedUpdateSignal = new Signal();
             UpdateSignal = new Signal();
             LateUpdateSignal = new Signal();
-            PreRenderSignal = new Signal();
-            RenderSignal = new Signal();
             ResizeSignal = new Signal();
             DisposingSignal = new Signal();
             LevelLoadedSignal = new Signal();
             SceneChangeSignal = new Signal();
-
-            MouseDownSignal = new Signal();
-            MouseUpSignal = new Signal();
-
-            MiddleMouseDownSignal = new Signal();
-            MiddleMouseUpSignal = new Signal();
-
-            RightMouseDownSignal = new Signal();
-            RightMouseUpSignal = new Signal();
-
-            MouseMoveSignal = new Signal();
-            MouseDragSignal = new Signal();
-            MouseWheelSignal = new Signal();
-
-            KeyDownSignal = new Signal();
-            KeyUpSignal = new Signal();
-
             TouchSignal = new Signal();
+
+            /**
+             * 2.b) Instantiate signals requiring OnGUI processing
+             * */
+
+            PreRenderSignal = new StateHandlingSignal(SignalStateChangedHandler);
+            RenderSignal = new StateHandlingSignal(SignalStateChangedHandler);
+
+            MouseDownSignal = new StateHandlingSignal(SignalStateChangedHandler);
+            MouseUpSignal = new StateHandlingSignal(SignalStateChangedHandler);
+
+            MiddleMouseDownSignal = new StateHandlingSignal(SignalStateChangedHandler);
+            MiddleMouseUpSignal = new StateHandlingSignal(SignalStateChangedHandler);
+
+            RightMouseDownSignal = new StateHandlingSignal(SignalStateChangedHandler);
+            RightMouseUpSignal = new StateHandlingSignal(SignalStateChangedHandler);
+
+            MouseMoveSignal = new StateHandlingSignal(SignalStateChangedHandler);
+            MouseDragSignal = new StateHandlingSignal(SignalStateChangedHandler);
+            MouseWheelSignal = new StateHandlingSignal(SignalStateChangedHandler);
+
+            KeyDownSignal = new StateHandlingSignal(SignalStateChangedHandler);
+            KeyUpSignal = new StateHandlingSignal(SignalStateChangedHandler);
 
             /**
              * 3) Instantiate processors
@@ -155,15 +168,89 @@ namespace eDriven.Core.Managers
             _screenSizeProcessor = new ScreenSizeProcessor(this);
         }
 
+        /// <summary>
+        /// The list of smart signals having subscribers
+        /// Since we need to process OnGUI for a certain signals, we are keeping those in the list
+        /// When the list is empty - no need for OnGUI processing - so we are turning _onGuiInvoker OFF for the performance reasons
+        /// </summary>
+        private readonly List<Signal> _activeSignals = new List<Signal>();
+        private void SignalStateChangedHandler(Signal signal, bool connected)
+        {
+            //Debug.Log(string.Format("SignalStateChangedHandler: {0} [{1}]", signal, connected));
+            if (connected && !_activeSignals.Contains(signal))
+            {
+                _activeSignals.Add(signal);
+                //Debug.Log(string.Format("SignalStateChangedHandler: added {0} [{1}]", signal, connected));
+            }
+            else if (!connected && _activeSignals.Contains(signal))
+            {
+                _activeSignals.Remove(signal);
+                //Debug.Log(string.Format("SignalStateChangedHandler: removed {0} [{1}]", signal, connected));
+            }
+
+            HandleOnGuiInvokerEnabledState();
+        }
+
         #endregion
 
         #region Properties
 
+        private static bool _enabled = true; // TRUE by default
+
         /// <summary>
         /// If true, system manager is enabled
         /// </summary>
-        public static bool Enabled = true; // TRUE by default
-        
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                if (value != _enabled)
+                {
+                    _enabled = value;
+                    // process the Enable change
+                    // if system manager not enabled, disable it so we're not stealing performance using OnGUI calls
+                    HandleOnGuiInvokerEnabledState();
+                }
+            }
+        }
+
+        //private static bool _onGuiEnabled = true; // TRUE by default
+
+        ///// <summary>
+        ///// The entry point for switching the OnGUI processing ON/OFF</br>
+        ///// NOTE: Some things are dependant on OnGUI calls and will stop working when switched off:</br>
+        ///// 1. mouse events</br>
+        ///// 2. keyboard events</br>
+        ///// 3. eDriven.Gui rendering
+        ///// </summary>
+        //public bool OnGuiEnabled
+        //{
+        //    get
+        //    {
+        //        return _onGuiEnabled;
+        //    }
+        //    set
+        //    {
+        //        if (value != _onGuiEnabled)
+        //        {
+        //            _onGuiEnabled = value;
+        //            // process the Enable change
+        //            // if system manager not enabled, disable it so we're not stealing performance using OnGUI calls
+        //            HandleOnGuiInvokerEnabledState();
+        //        }
+        //    }
+        //}
+
+        private void HandleOnGuiInvokerEnabledState()
+        {
+            if (null != _onGuiInvoker)
+                _onGuiInvoker.enabled = _enabled && /*_onGuiEnabled && */_activeSignals.Count > 0;
+        }
+
         private Point _screenSize = new Point();
         /// <summary>
         /// Publicly available screen size
@@ -188,6 +275,14 @@ namespace eDriven.Core.Managers
         private MousePositionProcessor _mousePositionProcessor;
         private TouchProcessor _touchProcessor;
         private ScreenSizeProcessor _screenSizeProcessor;
+
+        /// <summary>
+        /// A separate invoker instance
+        /// This one handles the OnGUI calls separately
+        /// The reason for the separation is because the OnGUI calls are currently very expensive
+        /// Not every implementation has to use OnGUI, so this component could be switched OFF if no OnGUI functionality needed
+        /// </summary>
+        private SystemManagerOnGuiInvoker _onGuiInvoker;
 
         #endregion
 
@@ -307,7 +402,7 @@ namespace eDriven.Core.Managers
         /// </summary>
         public void ProcessInput()
         {
-            if (!Enabled)
+            if (!_enabled/* || !_onGuiEnabled*/)
                 return;
 
             if (null != OnGuiDepth)

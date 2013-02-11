@@ -69,6 +69,8 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -112,10 +114,6 @@
     <Compile Include="Rpc\Multiplicators\ImageLoaderBase.cs" />
     <Compile Include="Rpc\Multiplicators\TextureLoaderBase.cs" />
     <Compile Include="Rpc\Multiplicators\TokenMultiplicator.cs" />
-    <Compile Include="Serialization\ISerializer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Serialization\XmlSerializer.cs" />
     <Compile Include="Util\Logger.cs" />
   </ItemGroup>
   <ItemGroup>

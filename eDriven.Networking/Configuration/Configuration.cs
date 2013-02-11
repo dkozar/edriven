@@ -27,7 +27,7 @@ THE SOFTWARE.
 #endregion License
 
 using System;
-using eDriven.Networking.Serialization;
+using eDriven.Core.Serialization;
 using UnityEngine;
 
 namespace eDriven.Networking.Configuration
