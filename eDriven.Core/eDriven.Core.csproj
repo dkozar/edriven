@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>eDriven.Core</RootNamespace>
     <AssemblyName>eDriven.Core</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -72,6 +72,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -80,6 +83,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\ImageLoader.cs" />
+    <Compile Include="Caching\IResourceLoaderProxy.cs" />
     <Compile Include="Events\ITouchEventDispatcherPlugin.cs" />
     <Compile Include="Events\TouchEvent.cs" />
     <Compile Include="Managers\TouchEventDispatcher.cs" />
@@ -87,6 +92,7 @@
     <Compile Include="Mono\SystemManagerOnGuiInvoker.cs" />
     <Compile Include="Reflection\GlobalMemberTypeCache.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="Signals\SignalUtil.cs" />
     <Compile Include="Signals\Slot.cs" />
     <Compile Include="Signals\StateHandlingSignal.cs" />
     <Compile Include="Tasks\AsyncRequestHandler.cs" />
@@ -100,7 +106,7 @@
     <Compile Include="Mapper\IPowerMapper.cs" />
     <Compile Include="Mapper\PowerMapper.cs" />
     <Compile Include="Util\AsyncLoaderCallback.cs" />
-    <Compile Include="Util\Cache.cs" />
+    <Compile Include="Caching\Cache.cs" />
     <Compile Include="Reflection\MemberWrapper.cs" />
     <Compile Include="Reflection\PropertyTypeCache.cs" />
     <Compile Include="Util\ResourceLoader.cs" />

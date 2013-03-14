@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 
 /*
  
@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 #endregion License
 
+using eDriven.Core.Caching;
 using UnityEngine;
 
 namespace eDriven.Core.Util

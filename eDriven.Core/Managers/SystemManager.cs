@@ -114,13 +114,13 @@ namespace eDriven.Core.Managers
             /**
              * 1.a) Instantiate SystemManagerInvoker
              * */
-            Framework.CreateComponent(typeof(SystemManagerInvoker), true); // exclusive, i.e. allow single instance only
+            Framework.CreateComponent<SystemManagerInvoker>(true); // exclusive, i.e. allow single instance only
 
             /**
              * 1.b) Instantiate SystemManagerOnGuiInvoker
              * Keeping reference to it so we could disable it when OnGUI processing not needed
              * */
-            _onGuiInvoker = (SystemManagerOnGuiInvoker)Framework.CreateComponent(typeof(SystemManagerOnGuiInvoker), true); // exclusive, i.e. allow single instance only
+            _onGuiInvoker = (SystemManagerOnGuiInvoker)Framework.CreateComponent<SystemManagerOnGuiInvoker>(true); // exclusive, i.e. allow single instance only
             _onGuiInvoker.enabled = false; // disable it by default
 
             /**

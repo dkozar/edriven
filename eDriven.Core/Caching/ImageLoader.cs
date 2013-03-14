@@ -29,7 +29,7 @@ THE SOFTWARE.
 using eDriven.Core.Util;
 using UnityEngine;
 
-namespace eDriven.Networking.Caching
+namespace eDriven.Core.Caching
 {
     /// <summary>
     /// Loads images from Resources folder and caches them

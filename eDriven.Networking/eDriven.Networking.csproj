@@ -86,9 +86,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caching\Cache.cs" />
-    <Compile Include="Caching\ImageLoader.cs" />
-    <Compile Include="Caching\IResourceLoaderProxy.cs" />
     <Compile Include="Configuration\Application.cs" />
     <Compile Include="Configuration\ConfigLoader.cs" />
     <Compile Include="Configuration\ConfigSections\ConfigurationProperty.cs" />

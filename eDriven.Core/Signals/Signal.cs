@@ -144,17 +144,17 @@ namespace eDriven.Core.Signals
         }
 
         /// <summary>
-        /// Returns Signal method info
+        /// Returns Signal type
         /// </summary>
         /// <param name="signal"></param>
         /// <returns></returns>
-        public string DescribeSignal(Signal signal)
+        public static string DescribeSignal(Signal signal)
         {
             return string.Format("Signal: {0}", signal.GetType());
         }
 
         /// <summary>
-        /// Returns Slot method info
+        /// Returns Slot metadata
         /// </summary>
         /// <param name="slot"></param>
         /// <returns></returns>

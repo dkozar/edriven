@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using UnityEngine;
 
 namespace eDriven.Core.Util
@@ -48,9 +49,10 @@ namespace eDriven.Core.Util
                 {
                     fieldInfo.SetValue(target, value);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Debug.Log(string.Format("Error setting value [{0}] to [{1}]", value, fieldInfo.Name));
+                    Debug.LogError(string.Format("Error setting value [{0}] to [{1}]", value, fieldInfo.Name));
+                    Debug.LogError(ex);
                 }
             }
                 

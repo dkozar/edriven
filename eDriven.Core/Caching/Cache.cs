@@ -29,26 +29,30 @@ THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 
-namespace eDriven.Networking.Caching
+namespace eDriven.Core.Caching
 {
     /// <summary>
-    /// The cache
-    /// If you want to retrieve certain resources only ONCE, use this class and cache values
-    /// *Put* values into the class and *Get* them later
+    /// The class that caches objects as key/value pairs
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
     public class Cache<TKey, TValue> where TValue : new()
     {
+        /// <summary>
+        /// A dictionary that holds the cached values
+        /// </summary>
         private readonly Dictionary<TKey, TValue> _dict;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Cache()
         {
             _dict = new Dictionary<TKey, TValue>();
         }
 
         /// <summary>
-        /// Gets a value from the cache
+        /// Gets the cached value
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -57,11 +61,15 @@ namespace eDriven.Networking.Caching
             if (_dict.ContainsKey(key))
                 return _dict[key];
 
+            //var value = new TValue();
+            //_dict[key] = value;
+            //return value;
+
             return default(TValue);
         }
 
         /// <summary>
-        /// Caches a value
+        /// Caches the value
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>

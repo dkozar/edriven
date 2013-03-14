@@ -67,7 +67,7 @@ namespace eDriven.Networking.Rpc
         /// <summary>
         /// Displays the overal progress
         /// </summary>
-        public static readonly HttpServiceProgressAggregator ProgressAggregator = new HttpServiceProgressAggregator();
+        //public static readonly HttpServiceProgressAggregator ProgressAggregator = new HttpServiceProgressAggregator();
 
         #endregion
 
@@ -252,7 +252,7 @@ namespace eDriven.Networking.Rpc
             _synced = new List<AsyncToken>();
             _forRemoval = new List<AsyncToken>();
 
-            ProgressAggregator.RegisterService(this);
+            //ProgressAggregator.RegisterService(this);
         }
 
         #endregion
@@ -1194,19 +1194,19 @@ namespace eDriven.Networking.Rpc
         /// <param name="response"></param>
         public static void DisposeResources(WWW response)
         {
-            if (Application.isEditor) // Edit mode
-            {
-                Object.DestroyImmediate(response.audioClip);
-                Object.DestroyImmediate(response.movie);
-                Object.DestroyImmediate(response.texture);
-            }
+            //if (Application.isEditor) // Edit mode
+            //{
+            //    Object.DestroyImmediate(response.audioClip);
+            //    Object.DestroyImmediate(response.movie);
+            //    Object.DestroyImmediate(response.texture);
+            //}
 
-            else // app mode
-            {
-                Object.Destroy(response.audioClip);
-                Object.Destroy(response.movie);
-                Object.Destroy(response.texture);
-            }
+            //else // app mode
+            //{
+            //    Object.Destroy(response.audioClip);
+            //    Object.Destroy(response.movie);
+            //    Object.Destroy(response.texture);
+            //}
 
             response.Dispose();
 

@@ -53,7 +53,7 @@ namespace eDriven.Core.Mono
                 {
                     Object[] retValue = FindObjectsOfType(typeof (GizmoManager));
                     if (retValue == null || retValue.Length == 0)
-                        Framework.CreateComponent(typeof(GizmoManager), true);
+                        Framework.CreateComponent<GizmoManager>(true);
                     else if (retValue.Length > 1)
                         throw new ApplicationException("More than one GizmoManager object exists on the scene!");
 

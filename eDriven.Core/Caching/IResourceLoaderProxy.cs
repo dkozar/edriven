@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 #endregion License
 
-namespace eDriven.Networking.Caching
+namespace eDriven.Core.Caching
 {
     /// <summary>
     /// Loads resource from a path

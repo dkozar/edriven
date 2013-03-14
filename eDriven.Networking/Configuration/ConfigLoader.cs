@@ -176,7 +176,6 @@ namespace eDriven.Networking.Configuration
                if (DebugMode)
                     Debug.Log(string.Format("ConfigLoader: loading in Async mode [{0}]", url));
 #endif
-                    
                 _connector = new HttpConnector
                                  {
                                      Url = url,

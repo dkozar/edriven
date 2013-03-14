@@ -22,9 +22,7 @@ THE SOFTWARE.
  
 */
 
-using System;
 using eDriven.Core.Managers;
-using eDriven.Core.Util;
 using UnityEngine;
 
 namespace eDriven.Core
@@ -89,7 +87,7 @@ namespace eDriven.Core
                      * 2a) Instantiate
                      * */
 
-                    fo = new GameObject();
+                    fo = new GameObject { hideFlags = HideFlags.NotEditable | HideFlags.HideInHierarchy | HideFlags.HideInInspector };
 
                     fo.AddComponent(typeof (FrameworkMonoBehaviour));
 
@@ -125,15 +123,14 @@ namespace eDriven.Core
         /// <summary>
         /// Gets the component by its type
         /// </summary>
-        /// <param name="scriptType">The type of the component</param>
         /// <param name="instantiateIfNotFound">If component not found on the framework object, should I instantiate a new component and stick it in?</param>
         /// <returns></returns>
-        public static Component GetComponent(Type scriptType, bool instantiateIfNotFound)
+        public static Component GetComponent<T>(bool instantiateIfNotFound) where T : Component
         {
-            Component component = FrameworkObject.GetComponent(scriptType);
+            Component component = FrameworkObject.GetComponent(typeof(T));
 
             if (null == component && instantiateIfNotFound)
-                component = CreateComponent(scriptType, true);
+                component = CreateComponent<T>(true);
 
             return component;
         }
@@ -142,19 +139,18 @@ namespace eDriven.Core
         /// Creates a component and sticks it to the framework object
         /// If the framework object has not been created, it creates it now
         /// </summary>
-        /// <param name="scriptType">The type of script to instantiate</param>
         /// <param name="exclusive">Should only one instance of this script exist in the application?</param>
-        public static Component CreateComponent(Type scriptType, bool exclusive)
+        public static Component CreateComponent<T>(bool exclusive) where T:Component
         {
-            Component component = FrameworkObject.GetComponent(scriptType);
+            Component component = FrameworkObject.GetComponent<T>();
 
             if (null == component) // no instance present
             {
-                component = FrameworkObject.AddComponent(scriptType);
+                component = FrameworkObject.AddComponent(typeof(T));
 
 #if DEBUG
                 if (DebugMode)
-                    Log(string.Format(@"added component ""{0}""", scriptType));
+                    Log(string.Format(@"added component ""{0}""", typeof(T)));
 #endif
             }
             //else if (retValue.Length > 1 && exclusive)
