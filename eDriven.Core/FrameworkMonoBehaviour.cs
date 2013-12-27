@@ -1,6 +1,6 @@
 ﻿/*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,10 +29,8 @@ using UnityEngine;
 namespace eDriven.Core
 {
     /// <summary>
-    /// The hack
-    /// The only purpose for now for having this Script is to make FrameworkObject not destroyable, 
-    /// so it can walk from scene to scene
-    /// This is done by calling DontDestroyOnLoad() in Awake() method
+    /// The hack making the FrameworkObject not destroyable, so it can walk from scene to scene
+    /// This is done by calling DontDestroyOnLoad() in the Awake() method
     /// </summary>
     public sealed class FrameworkMonoBehaviour : MonoBehaviour
     {
@@ -46,12 +44,9 @@ namespace eDriven.Core
             if (!_initialized)
             {
                 _initialized = true;
-                //Debug.Log("FrameworkMonoBehaviour.Awake");
-
+                
                 /**
-                 * If you’d like your singleton to remain between scene loads just add:
-                 * “DontDestroyOnLoad(container);” just after you create it. 
-                 * This prevents Unity from destroying it and means you can use it to stored data between scenes.
+                 * Prevents Unity from destroying this game object between scenes
                  * */
                 DontDestroyOnLoad(gameObject);
             }

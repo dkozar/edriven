@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 #endregion License
 
+using System;
 using eDriven.Core.Geom;
 
 namespace eDriven.Core.Events
@@ -114,6 +115,11 @@ namespace eDriven.Core.Events
         /// </summary>
         public const string MIDDLE_CLICK = "middleClick";
 
+        /// <summary>
+        /// Constant
+        /// </summary>
+        public const string MIDDLE_DOUBLE_CLICK = "middleDoubleClick";
+
         // right button
 
         /// <summary>
@@ -130,6 +136,11 @@ namespace eDriven.Core.Events
         /// Constant
         /// </summary>
         public const string RIGHT_CLICK = "rightClick";
+
+        /// <summary>
+        /// Constant
+        /// </summary>
+        public const string RIGHT_DOUBLE_CLICK = "rightDoubleClick";
 
         /// <summary>
         /// Constant
@@ -161,6 +172,26 @@ namespace eDriven.Core.Events
         /// The global (screen) position
         /// </summary>
         public Point GlobalPosition;
+
+        /// <summary>
+        /// Related object
+        /// </summary>
+        public object RelatedObject;
+
+        /// <summary>
+        /// True if the mouse button is down
+        /// </summary>
+        public bool ButtonDown;
+
+        /// <summary>
+        /// True if the mouse button is down
+        /// </summary>
+        public bool MiddleButtonDown;
+
+        /// <summary>
+        /// True if the mouse button is down
+        /// </summary>
+        public bool RightButtonDown;
 
         #endregion
 

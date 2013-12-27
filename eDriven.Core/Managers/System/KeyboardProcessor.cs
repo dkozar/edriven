@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,6 @@ namespace eDriven.Core.Managers
     /// <summary>
     /// Processes Unity keyboard events
     /// </summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
     internal class KeyboardProcessor : UnityEventProcessorBase
     {
 #if DEBUG
@@ -48,6 +47,7 @@ namespace eDriven.Core.Managers
         
         public override void Process(Event e)
         {
+            //Debug.Log("KeyboardProcessor.Process: " + e.keyCode);
 
 #if DEBUG
             if (DebugMode)
@@ -59,17 +59,21 @@ namespace eDriven.Core.Managers
              * */
             if (e.type == EventType.KeyDown)
             {
+                if (e.keyCode == KeyCode.None) // Unity 4.3.0f2 bug ("ghost keystroke")
+                    return;
+                //Debug.Log("KeyboardProcessor.KeyDown");
+                ProcessSpecialKeys(e);
 #if DEBUG
                 if (DebugMode)
                     Debug.Log("KeyboardProcessor.KeyDown");
 #endif
                 if (SystemManager.KeyDownSignal.Connected)
                     SystemManager.KeyDownSignal.Emit(e);
-
             }
 
             else if (e.type == EventType.KeyUp)
             {
+                ProcessSpecialKeys(e);
 #if DEBUG
                 if (DebugMode)
                     Debug.Log("KeyboardProcessor.KeyUp");
@@ -81,6 +85,17 @@ namespace eDriven.Core.Managers
 
             if (e.keyCode == KeyCode.Tab || e.character == '\t')
                 e.Use();
+        }
+
+        /// <summary>
+        /// Gets the state of the special keys pressed
+        /// </summary>
+        /// <param name="e"></param>
+        private static void ProcessSpecialKeys(Event e)
+        {
+            SystemManager.Instance.ControlKeyPressed = e.control;
+            SystemManager.Instance.ShiftKeyPressed = e.shift;
+            SystemManager.Instance.AltKeyPressed = e.alt;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿/*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,10 +44,26 @@ namespace eDriven.Core
         /// </summary>
         public static string FrameworkObjectName = "$_eDriven_Framework";
 
+#if DEBUG
         /// <summary>
         /// Do not write onfo messages to log
         /// </summary>
         public static bool EnableInfoMessages = true;
+#endif
+        
+#if RELEASE
+        /// <summary>
+        /// Do not write onfo messages to log
+        /// </summary>
+        public static bool EnableInfoMessages = true;
+#endif
+
+#if PRODUCTION
+        /// <summary>
+        /// Do not write onfo messages to log
+        /// </summary>
+        public static bool EnableInfoMessages; // false by default
+#endif
 
         /// <summary>
         /// Parent object for the auto-generated framework object
@@ -64,11 +80,8 @@ namespace eDriven.Core
         {
             get
             {
-                //int levelId = Application.loadedLevel;
-                //Debug.Log("levelId: " + levelId);
-
                 /**
-                 * A little caching :)
+                 * Caching...
                  * */
                 if (null != _frameworkObject)
                     return _frameworkObject;
@@ -77,7 +90,7 @@ namespace eDriven.Core
                  * 1) Try to find a framework object
                  * */
                 GameObject fo = GameObject.Find("/" + FrameworkObjectName);
-
+                
                 /**
                  * 2) If not found, instantiate it
                  * */
@@ -87,8 +100,7 @@ namespace eDriven.Core
                      * 2a) Instantiate
                      * */
 
-                    fo = new GameObject { hideFlags = HideFlags.NotEditable | HideFlags.HideInHierarchy | HideFlags.HideInInspector };
-
+                    fo = new GameObject();
                     fo.AddComponent(typeof (FrameworkMonoBehaviour));
 
                     /**
@@ -101,8 +113,6 @@ namespace eDriven.Core
 
                     fo.name = FrameworkObjectName;
 
-                    //fo.hideFlags = HideFlags.DontSave;
-
                     /**
                      * 2b) Allow setting a parent
                      * */
@@ -110,6 +120,15 @@ namespace eDriven.Core
                         fo.transform.parent = FrameworkObjectParent.transform;
                 }
 
+                /**
+                 * Hide the framework object if not in debug mode
+                 * */
+
+#if DEBUG
+                fo.hideFlags = HideFlags.None;
+#else
+                fo.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+#endif
                 _frameworkObject = fo;
 
 #if DEBUG
@@ -137,7 +156,7 @@ namespace eDriven.Core
 
         /// <summary>
         /// Creates a component and sticks it to the framework object
-        /// If the framework object has not been created, it creates it now
+        /// If the framework object has not been created, it is being created now
         /// </summary>
         /// <param name="exclusive">Should only one instance of this script exist in the application?</param>
         public static Component CreateComponent<T>(bool exclusive) where T:Component
@@ -161,23 +180,10 @@ namespace eDriven.Core
             return component;
         }
 
-//        public static void Reset()
-//        {
-//            _frameworkObject = null;
-
-//#if DEBUG
-//            if (DebugMode)
-//                Debug.Log("Framework object destroyed");
-//#endif
-//        }
-
         public static void LoadLevel(int id)
         {
             SystemManager.Instance.Dispose();
             Application.LoadLevel(id);
-            //Timer t = new Timer(1, 1);
-            //t.Start();
-            //t.Complete += delegate { Application.LoadLevel(id); };
         }
 
         public static void LoadLevelAdditive(int id)

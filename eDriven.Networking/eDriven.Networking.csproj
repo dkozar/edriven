@@ -33,6 +33,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -148,6 +149,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)Unity\Assets\eDriven\Libs\ /Y</PostBuildEvent>
+    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)\Assets\eDriven\Libs\ /Y
+Copy $(TargetDir)$(TargetName).pdb $(SolutionDir)\Assets\eDriven\Libs\ /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

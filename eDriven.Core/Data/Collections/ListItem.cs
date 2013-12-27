@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -56,7 +56,7 @@ namespace eDriven.Core.Data.Collections
 
         public override string ToString()
         {
-            return string.Format("Value: {0}, Label: {1}", Value, Label);
+            return Label;
         }
     }
 }

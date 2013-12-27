@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,8 +33,6 @@ using Object=UnityEngine.Object;
 
 namespace eDriven.Networking.Configuration
 {
-    [AddComponentMenu("eDriven/Networking/ConfigLoader")]
-
     /// <summary>
     /// Configuration loader
     /// Only one instance of this object is needed in the application
@@ -44,6 +42,9 @@ namespace eDriven.Networking.Configuration
     /// You should subscribe to Configuration.INITIALIZED event which indicates that configuration is built
     /// and then start working with it
     /// </summary>
+    /// 
+    [AddComponentMenu("eDriven/Networking/ConfigLoader")]
+
     public class ConfigLoader : MonoBehaviour
     {
         #region Singleton
@@ -143,21 +144,6 @@ namespace eDriven.Networking.Configuration
         private HttpConnector _connector;
 
         Object _config;
-
-        //// ReSharper disable UnusedMember.Local
-        // [Obfuscation(Exclude = true)]
-        //void Update()
-        //// ReSharper restore UnusedMember.Local
-        //{
-        //    //Debug.Log("update");
-        //    if (/*!UnityEngine.Application.isEditor && */_shouldLoadOnUpdate && !_configLoadingStarted)
-        //    {
-        //        Debug.Log("starting loading from Update");
-        //        _shouldLoadOnUpdate = false;
-        //        _configLoadingStarted = true;
-        //        StartLoading(); // start loading on the first update (and only when in editor)
-        //    }
-        //}
 
         private void StartLoading()
         {

@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ namespace eDriven.Core.Events
         /// <summary>
         /// Size
         /// </summary>
-        public Point Size = new Point();
+        public Point Size; // = new Point();
 
         /// <summary>
         /// Previous width
@@ -54,8 +54,9 @@ namespace eDriven.Core.Events
         /// <summary>
         /// Constant
         /// </summary>
-        public const string RESIZE = "RESIZE";
-// ReSharper restore InconsistentNaming
+        public const string RESIZE = "resize";
+
+        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Constructor

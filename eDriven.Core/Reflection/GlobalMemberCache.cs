@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 
 /*
  
@@ -26,32 +26,38 @@ THE SOFTWARE.
 
 #endregion License
 
-using eDriven.Core.Util;
+using System;
+using eDriven.Core.Caching;
 using UnityEngine;
 
-namespace eDriven.Core.Caching
+namespace eDriven.Core.Reflection
 {
     /// <summary>
-    /// Loads images from Resources folder and caches them
+    /// To speed things up, we use caching<br/>
+    /// This is a global cache holding member types<br/>
+    /// This way we should reflect only once per class/member in the application lifetime (assuming that member types don't change)<br/>
+    /// Some operations like tweening use this cache<br/>
+    /// The cache could be cleared manually anytime
     /// </summary>
-    public class ImageLoader : ISyncLoader<Texture>
+    public class GlobalMemberCache : MemberCache
     {
 #if DEBUG
-// ReSharper disable UnassignedField.Global
+        // ReSharper disable UnassignedField.Global
+        /// <summary>
+        /// Debug mode
+        /// </summary>
         public static bool DebugMode;
-// ReSharper restore UnassignedField.Global
+        // ReSharper restore UnassignedField.Global
 #endif
-
-        readonly Cache<string, Texture> _cache = new Cache<string, Texture>();
 
         #region Singleton
 
-        private static ImageLoader _instance;
+        private static GlobalMemberCache _instance;
 
         /// <summary>
-        /// Constructor
+        /// Singleton class for handling focus
         /// </summary>
-        private ImageLoader()
+        private GlobalMemberCache()
         {
             // Constructor is protected
         }
@@ -59,7 +65,7 @@ namespace eDriven.Core.Caching
         /// <summary>
         /// Singleton instance
         /// </summary>
-        public static ImageLoader Instance
+        public static GlobalMemberCache Instance
         {
             get
             {
@@ -67,9 +73,9 @@ namespace eDriven.Core.Caching
                 {
 #if DEBUG
                     if (DebugMode)
-                        Debug.Log(string.Format("Instantiating ResourceLoader instance"));
+                        Debug.Log(string.Format("Instantiating GlobalMemberCache instance"));
 #endif
-                    _instance = new ImageLoader();
+                    _instance = new GlobalMemberCache();
                     Initialize();
                 }
 
@@ -86,22 +92,5 @@ namespace eDriven.Core.Caching
         {
 
         }
-
-        #region Implementation of ISyncLoader<Texture>
-
-        private Texture _texture;
-
-        /// <summary>
-        /// Loads the image identified by path from Resources folder
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public Texture Load(string id)
-        {
-            _texture = _cache.Get(id) ?? (Texture)Resources.Load(id, typeof(Texture));
-            return _texture;
-        }
-
-        #endregion
     }
 }

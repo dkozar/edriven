@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 #endregion License
 
-using System;
+/*using System;
 using System.Reflection;
 using UnityEngine;
 using Object=UnityEngine.Object;
@@ -36,6 +36,7 @@ namespace eDriven.Core.Mono
     /// <summary>
     /// Gizmo manager
     /// </summary>
+    [Obfuscation(Exclude = true)]
     public class GizmoManager : MonoBehaviour
     {
         #region Singleton
@@ -90,4 +91,4 @@ namespace eDriven.Core.Mono
             Gizmos.DrawIcon(transform.position, "gizmo_dispatcher.png");
         }
     }
-}
+}*/

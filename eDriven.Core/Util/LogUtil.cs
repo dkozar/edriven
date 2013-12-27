@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,10 @@ THE SOFTWARE.
 */
 
 #endregion License
+
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using Debug = UnityEngine.Debug;
 
 namespace eDriven.Core.Util
 {
@@ -51,6 +55,19 @@ namespace eDriven.Core.Util
             }
 
             return output + input;
+        }
+
+        /// <summary>
+        /// Gets current method name
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void PrintCurrentMethod()
+        {
+            StackTrace st = new StackTrace();
+            StackFrame sf = st.GetFrame(1);
+
+            Debug.Log(string.Format("{0}->{1}", sf.GetMethod().DeclaringType, sf.GetMethod().Name));
         }
     }
 }

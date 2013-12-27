@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -111,6 +111,9 @@ namespace eDriven.Core.Util
         /// </summary>
         public int Count(Type key)
         {
+            if (!_dict.ContainsKey(key))
+                return 0;
+
             return _dict[key].Count;
         }
     }

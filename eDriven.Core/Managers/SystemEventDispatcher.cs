@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,6 @@ namespace eDriven.Core.Managers
     /// Connects to SystemManager signals
     /// Dispatches eDriven.Events to interested parties
     /// </summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
     public sealed class SystemEventDispatcher : EventDispatcher
     {
 
@@ -108,7 +107,7 @@ namespace eDriven.Core.Managers
         {
             MouseEvent me = new MouseEvent(MouseEvent.MOUSE_MOVE)
                                 {
-                                    CurrentEvent = (UnityEngine.Event)parameters[0],
+                                    //CurrentEvent = (UnityEngine.Event)parameters[0], // note: CurrentEvent is null
                                     GlobalPosition = (Point)parameters[1]
                                 };
             DispatchEvent(me);
@@ -136,8 +135,7 @@ namespace eDriven.Core.Managers
 
         private void MouseUpSlot(params object[] parameters)
         {
-            //Debug.Log("Mouse up! " + _manager.MouseUpCount);
-
+            //Debug.Log("Mouse up! ");
             MouseEvent me = new MouseEvent(MouseEvent.MOUSE_UP)
                                 {
                                     CurrentEvent = (UnityEngine.Event)parameters[0],
@@ -199,6 +197,7 @@ namespace eDriven.Core.Managers
         private void KeyDownSlot(params object[] parameters)
         {
             UnityEngine.Event e = (UnityEngine.Event)parameters[0];
+            //Debug.Log("KeyDownSlot: " + e.keyCode);
 
             KeyboardEvent ke = new KeyboardEvent(KeyboardEvent.KEY_DOWN)
                                    {
@@ -453,73 +452,48 @@ namespace eDriven.Core.Managers
 
         #region Handlers
 
-        private int _mouseDownCount;
-        private int _mouseUpCount;
-        private int _rightMouseDownCount;
-        private int _rightMouseUpCount;
-        private int _middleMouseDownCount;
-        private int _middleMouseUpCount;
-        private int _mouseMoveCount;
-        private int _mouseDragCount;
-        private int _mouseWheelCount;
-        private int _keyDownCount;
-        private int _keyUpCount;
-
         public override void AddEventListener(string eventType, EventHandler handler, EventPhase phases)
         {
             base.AddEventListener(eventType, handler, phases);
 
-            //if (MappedToAnyPhase(eventType, handler, phases)) // TODO: fix wrong counting
-            //    return;
-
             switch (eventType)
             {
-                    // mouse
+                // mouse
                 case MouseEvent.MOUSE_MOVE:
-                    _mouseMoveCount++;
+                    //Debug.Log("Subscribing to MOUSE_MOVE: " + handler);
                     SystemManager.Instance.MouseMoveSignal.Connect(MouseMoveSlot);
                     break;
                 case MouseEvent.MOUSE_DOWN:
-                    _mouseDownCount++;
                     SystemManager.Instance.MouseDownSignal.Connect(MouseDownSlot);
                     break;
                 case MouseEvent.MOUSE_UP:
-                    _mouseUpCount++;
+                    //Debug.Log("Subscribing to MOUSE_UP: " + handler);
                     SystemManager.Instance.MouseUpSignal.Connect(MouseUpSlot);
-                    //Debug.Log("MouseUpSignal signal connected");
                     break;
                 case MouseEvent.RIGHT_MOUSE_DOWN:
-                    _rightMouseDownCount++;
                     SystemManager.Instance.RightMouseDownSignal.Connect(RightMouseDownSlot);
                     break;
                 case MouseEvent.RIGHT_MOUSE_UP:
-                    _rightMouseUpCount++;
                     SystemManager.Instance.RightMouseUpSignal.Connect(RightMouseUpSlot);
                     break;
                 case MouseEvent.MIDDLE_MOUSE_DOWN:
-                    _middleMouseDownCount++;
                     SystemManager.Instance.MiddleMouseDownSignal.Connect(MiddleMouseDownSlot);
                     break;
                 case MouseEvent.MIDDLE_MOUSE_UP:
-                    _middleMouseUpCount++;
                     SystemManager.Instance.MiddleMouseUpSignal.Connect(MiddleMouseUpSlot);
                     break;
                 case MouseEvent.MOUSE_DRAG:
-                    _mouseDragCount++;
                     SystemManager.Instance.MouseDragSignal.Connect(MouseDragSlot);
                     break;
                 case MouseEvent.MOUSE_WHEEL:
-                    _mouseWheelCount++;
                     SystemManager.Instance.MouseWheelSignal.Connect(MouseWheelSlot);
                     break;
 
-                    // keys
+                // keys
                 case KeyboardEvent.KEY_DOWN:
-                    _keyDownCount++;
                     SystemManager.Instance.KeyDownSignal.Connect(KeyDownSlot);
                     break;
                 case KeyboardEvent.KEY_UP:
-                    _keyUpCount++;
                     SystemManager.Instance.KeyUpSignal.Connect(KeyUpSlot);
                     break;
             }
@@ -529,99 +503,59 @@ namespace eDriven.Core.Managers
         {
             base.RemoveEventListener(eventType, handler, phases);
 
-            //if (!MappedToAnyPhase(eventType, handler, phases)) // TODO: fix wrong counting
-            //    return;
-
             switch (eventType)
             {
-                    // mouse
+                // mouse
                 case MouseEvent.MOUSE_MOVE:
-                    if (_mouseMoveCount > 0)
-                    {
-                        _mouseMoveCount--;
-                        if (0 == _mouseMoveCount)
-                            SystemManager.Instance.MouseMoveSignal.Disconnect(MouseMoveSlot);
-                    }
+                    //Debug.Log("Unsubscribing from MOUSE_MOVE: " + handler);
+                    if (!HasEventListener(MouseEvent.MOUSE_MOVE))
+                        SystemManager.Instance.MouseMoveSignal.Disconnect(MouseMoveSlot);
                     break;
                 case MouseEvent.MOUSE_DOWN:
-                    if (_mouseDownCount > 0)
-                    {
-                        _mouseDownCount--;
-                        if (0 == _mouseDownCount)
-                            SystemManager.Instance.MouseDownSignal.Disconnect(MouseDownSlot);
-                    }
+                    if (!HasEventListener(MouseEvent.MOUSE_DOWN))
+                        SystemManager.Instance.MouseDownSignal.Disconnect(MouseDownSlot);
                     break;
                 case MouseEvent.MOUSE_UP:
-                    if (_mouseUpCount > 0)
+                    //Debug.Log("Unsubscribing from MOUSE_UP: " + handler);
+                    if (!HasEventListener(MouseEvent.MOUSE_UP))
                     {
-                        _mouseUpCount--;
-                        if (0 == _mouseUpCount)
-                            SystemManager.Instance.MouseDownSignal.Disconnect(MouseUpSlot);
+                        //Debug.Log("Unsubscribing from MOUSE_UP: " + handler);
+                        SystemManager.Instance.MouseUpSignal.Disconnect(MouseUpSlot);
                     }
                     break;
                 case MouseEvent.RIGHT_MOUSE_DOWN:
-                    if (_rightMouseDownCount > 0)
-                    {
-                        _rightMouseDownCount--;
-                        if (0 == _rightMouseDownCount)
-                            SystemManager.Instance.RightMouseDownSignal.Disconnect(RightMouseDownSlot);
-                    }
+                    if (!HasEventListener(MouseEvent.RIGHT_MOUSE_DOWN))
+                        SystemManager.Instance.RightMouseDownSignal.Disconnect(RightMouseDownSlot);
                     break;
                 case MouseEvent.RIGHT_MOUSE_UP:
-                    if (_rightMouseUpCount > 0)
-                    {
-                        _rightMouseUpCount--;
-                        if (0 == _rightMouseUpCount)
-                            SystemManager.Instance.RightMouseUpSignal.Disconnect(RightMouseUpSlot);
-                    }
+                    if (!HasEventListener(MouseEvent.RIGHT_MOUSE_UP))
+                        SystemManager.Instance.RightMouseUpSignal.Disconnect(RightMouseUpSlot);
                     break;
                 case MouseEvent.MIDDLE_MOUSE_DOWN:
-                    if (_middleMouseDownCount > 0)
-                    {
-                        _middleMouseDownCount--;
-                        if (0 == _middleMouseDownCount)
-                            SystemManager.Instance.MiddleMouseDownSignal.Disconnect(MiddleMouseDownSlot);
-                    }
+                    if (!HasEventListener(MouseEvent.MIDDLE_MOUSE_DOWN))
+                        SystemManager.Instance.MiddleMouseDownSignal.Disconnect(MiddleMouseDownSlot);
                     break;
                 case MouseEvent.MIDDLE_MOUSE_UP:
-                    if (_middleMouseUpCount > 0)
-                    {
-                        _middleMouseUpCount--;
-                        if (0 == _middleMouseUpCount)
-                            SystemManager.Instance.MiddleMouseUpSignal.Disconnect(MiddleMouseUpSlot);
-                    }
+                    if (!HasEventListener(MouseEvent.MIDDLE_MOUSE_UP))
+                        SystemManager.Instance.MiddleMouseUpSignal.Disconnect(MiddleMouseUpSlot);
                     break;
                 case MouseEvent.MOUSE_DRAG:
-                    if (_mouseDragCount > 0)
-                    {
-                        _mouseDragCount--;
-                        if (0 == _mouseDragCount)
-                            SystemManager.Instance.MouseDragSignal.Disconnect(MouseDragSlot);
-                    }
+                    if (!HasEventListener(MouseEvent.MOUSE_DRAG))
+                        SystemManager.Instance.MouseDragSignal.Disconnect(MouseDragSlot);
                     break;
                 case MouseEvent.MOUSE_WHEEL:
-                    if (_mouseWheelCount > 0)
-                    {
-                        _mouseWheelCount--;
-                        if (0 == _mouseWheelCount)
-                            SystemManager.Instance.MouseWheelSignal.Disconnect(MouseWheelSlot);
-                    }
+                    if (!HasEventListener(MouseEvent.MOUSE_WHEEL))
+                        SystemManager.Instance.MouseWheelSignal.Disconnect(MouseWheelSlot);
                     break;
 
-                    // keys
+                // keys
                 case KeyboardEvent.KEY_DOWN:
-                    if (_keyDownCount > 0)
-                    {
-                        _keyDownCount--;
+                    if (!HasEventListener(KeyboardEvent.KEY_DOWN))
                         SystemManager.Instance.KeyDownSignal.Disconnect(KeyDownSlot);
-                    }
                     break;
                 case KeyboardEvent.KEY_UP:
-                    if (_keyUpCount > 0)
-                    {
-                        _keyUpCount--;
+                    if (!HasEventListener(KeyboardEvent.KEY_UP))
                         SystemManager.Instance.KeyUpSignal.Disconnect(KeyUpSlot);
-                    }
                     break;
             }
         }

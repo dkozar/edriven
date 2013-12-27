@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,6 @@ namespace eDriven.Core.Mono
     /// This class was created to separate OnGUI calls from the rest of the processing.<br/>
     /// This way the whole script could be disabled when OnGUI processing not needed, thus saving performance.
     /// </summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
     [Obfuscation(Exclude = true)]
     public sealed class SystemManagerOnGuiInvoker : MonoBehaviour
     {
@@ -51,9 +50,9 @@ namespace eDriven.Core.Mono
         [Obfuscation(Exclude = true)]
         void Awake()
         {
-#if !UNITY_EDITOR && (UNITY_IPHONE || UNITY_ANDROID)
+//#if !UNITY_EDITOR && (UNITY_IPHONE || UNITY_ANDROID)
             useGUILayout = false;
-#endif
+//#endif
         }
 
         [Obfuscation(Exclude = true)]

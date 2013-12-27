@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -56,15 +56,10 @@ namespace eDriven.Core.Caching
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TValue Get(TKey key)
+        public virtual TValue Get(TKey key)
         {
             if (_dict.ContainsKey(key))
                 return _dict[key];
-
-            //var value = new TValue();
-            //_dict[key] = value;
-            //return value;
-
             return default(TValue);
         }
 
@@ -73,7 +68,7 @@ namespace eDriven.Core.Caching
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public void Put(TKey key, TValue value)
+        public virtual void Put(TKey key, TValue value)
         {
             if (!_dict.ContainsKey(key))
                 _dict[key] = value;
@@ -82,15 +77,24 @@ namespace eDriven.Core.Caching
         /// <summary>
         /// Clears the cache
         /// </summary>
-        public void Clear()
+        public virtual void Clear()
         {
             foreach (TValue value in _dict.Values)
             {
-                IDisposable disposable = (IDisposable) value;
+                IDisposable disposable = value as IDisposable;
                 if (null != disposable)
                     disposable.Dispose();
             }
             _dict.Clear();
+        }
+
+        /// <summary>
+        /// Returns the number of cached items
+        /// </summary>
+        /// <returns></returns>
+        public int Count
+        {
+            get { return _dict.Keys.Count; }
         }
     }
 }

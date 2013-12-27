@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -77,7 +77,7 @@ namespace eDriven.Core.Events
         /// A dictionary holding the references to event listeners
         /// For each event type, more that one event listener could be subscribed (one-to-many relationship)
         /// </summary>
-        private readonly Dictionary<EventTypePhase, List<EventHandler>> _eventHandlerDict = new Dictionary<EventTypePhase, List<EventHandler>>();
+        private readonly Dictionary<EventTypePhase, List<PriorityGroup>> _eventHandlerDict = new Dictionary<EventTypePhase, List<PriorityGroup>>();
         
         /// <summary>
         /// The queue used for delayed processing
@@ -87,6 +87,47 @@ namespace eDriven.Core.Events
         #endregion
 
         #region Subscribing / unsubscribing
+        
+        /// <summary>
+        /// Adds the event listener
+        /// </summary>
+        /// <param name="eventType">Event type</param>
+        /// <param name="handler">Event handler</param>
+        /// <param name="phases">Event bubbling phases that we listen to</param>
+        /// <param name="priority">Event priority</param>
+        public virtual void AddEventListener(string eventType, EventHandler handler, EventPhase phases, int priority)
+        {
+            var arr = EventPhaseHelper.BreakUpPhases(phases);
+
+            foreach (EventPhase phase in arr)
+            {
+                EventTypePhase key = new EventTypePhase(eventType, phase);
+
+                if (!_eventHandlerDict.ContainsKey(key)) // avoid key duplication
+                    _eventHandlerDict.Add(key, new List<PriorityGroup>());
+
+                var group = _eventHandlerDict[key].Find(delegate(PriorityGroup g)
+                                                            {
+                                                                return g.Priority == priority;
+                                                            });
+
+                if (null == group)
+                {
+                    //if (0 != priority)
+                    //    Debug.Log("Creating new group with priority " + priority);
+                    group = new PriorityGroup { Priority = priority };
+                    // add and sort
+                    _eventHandlerDict[key].Add(group);
+
+                    // if having multiple priorities, sort now
+                    if (_eventHandlerDict[key].Count > 0)
+                        _eventHandlerDict[key].Sort(PriorityComparer);
+                }
+
+                if (!group.Contains(handler)) // avoid key + value duplication
+                    group.Add(handler);
+            }
+        }
 
         /// <summary>
         /// Adds the event listener
@@ -96,18 +137,7 @@ namespace eDriven.Core.Events
         /// <param name="phases">Event bubbling phases that we listen to</param>
         public virtual void AddEventListener(string eventType, EventHandler handler, EventPhase phases)
         {
-            var arr = EventPhaseHelper.BreakUpPhases(phases);
-
-            foreach (EventPhase phase in arr)
-            {
-                EventTypePhase key = new EventTypePhase(eventType, phase);
-
-                if (!_eventHandlerDict.ContainsKey(key)) // avoid key duplication
-                    _eventHandlerDict.Add(key, new List<EventHandler>());
-
-                if (!_eventHandlerDict[key].Contains(handler)) // avoid key + value duplication
-                    _eventHandlerDict[key].Add(handler);
-            }
+            AddEventListener(eventType, handler, phases, 0);
         }
 
         /// <summary>
@@ -120,6 +150,19 @@ namespace eDriven.Core.Events
         {
             AddEventListener(eventType, handler, EventPhase.Target | EventPhase.Bubbling); // | EventPhase.Bubbling added back 20121216
         }
+
+        /// <summary>
+        /// Adds the event listener
+        /// </summary>
+        /// <param name="eventType">Event type</param>
+        /// <param name="handler">Event handler</param>
+        /// <param name="priority">Event priority</param>
+        public virtual void AddEventListener(string eventType, EventHandler handler, int priority)
+        {
+            AddEventListener(eventType, handler, EventPhase.Target | EventPhase.Bubbling, priority);
+        }
+
+        private List<PriorityGroup> _tempList;
 
         /// <summary>
         /// Removes the event listener
@@ -137,11 +180,28 @@ namespace eDriven.Core.Events
 
                 if (_eventHandlerDict.ContainsKey(key))
                 {
-                    if (_eventHandlerDict[key].Contains(handler))
-                        _eventHandlerDict[key].Remove(handler);
+                    foreach (PriorityGroup group in _eventHandlerDict[key])
+                    {
+                        if (group.Contains(handler))
+                            group.Remove(handler);
 
-                    if (_eventHandlerDict[key].Count == 0) // cleanup
-                        _eventHandlerDict.Remove(key);
+                        if (group.Count == 0) {
+                            if (null == _tempList)
+                                _tempList = new List<PriorityGroup>();
+                            _tempList.Add(group);
+                        }
+                    }
+
+                    if (null != _tempList) {
+                        foreach (PriorityGroup @group in _tempList)
+                        {
+                            _eventHandlerDict[key].Remove(@group); // cleanup
+                        }
+                        _tempList.Clear();
+                    }
+
+                    if (_eventHandlerDict[key].Count == 0)
+                        _eventHandlerDict.Remove(key); // cleanup
                 }
             }
         }
@@ -170,8 +230,22 @@ namespace eDriven.Core.Events
             foreach (EventPhase phase in arr)
             {
                 EventTypePhase key = new EventTypePhase(eventType, phase);
-                if (_eventHandlerDict.ContainsKey(key) && _eventHandlerDict[key].Contains(handler))
-                    return true;
+                //if (_eventHandlerDict.ContainsKey(key) && _eventHandlerDict[key].Contains(handler))
+                if (_eventHandlerDict.ContainsKey(key))
+                {
+                    var exists = _eventHandlerDict[key].Exists(delegate(PriorityGroup group)
+                    {
+                        return group.Contains(handler);
+                    });
+                    
+                    //foreach (PriorityGroup group in _eventHandlerDict[key])
+                    //{
+                    //    //if (_eventHandlerDict[key].Contains(handler))
+                    //    //    return true;
+                    //}
+
+                    return exists;
+                }
             }
 
             return false;
@@ -219,7 +293,7 @@ namespace eDriven.Core.Events
         }
 
         /// <summary>
-        /// Returns true if there are any subscribers in bubbling hierarchy
+        /// Returns true if there are any subscribers in bubbling hierarchy<br/>
         /// Override in superclass
         /// </summary>
         /// <param name="eventType"></param>
@@ -238,6 +312,7 @@ namespace eDriven.Core.Events
         /// </summary>
         /// <param name="e">Event</param>
         /// <param name="immediate">Process immediatelly or delayed?</param>
+        /// <returns>If after the event object finishes propagating through the DOM event flow its Event.DefaultPrevented attribute is false, then this method returns true. Otherwise this method returns false.</returns>
         public virtual void DispatchEvent(Event e, bool immediate)
         {
 #if DEBUG
@@ -260,10 +335,11 @@ namespace eDriven.Core.Events
             {
                 /**
                  * 1) Immediate dispatching
-                 * The code from the event listener is run NOW
+                 * The code from the event listener is being run just NOW
                  * */
                 ProcessEvent(e);
             }
+
             else
             {
                 /**
@@ -298,10 +374,9 @@ namespace eDriven.Core.Events
 
         /// <summary>
         /// Executes event handlers listening for a particular event type
-        /// NOTE: Public by purpose
         /// </summary>
         /// <param name="e">Event to dispatch</param>
-        /// <remarks>Conceived by Danko Kozar</remarks>
+        /// <remarks>NOTE: Public by purpose</remarks>
         public void ExecuteListeners(Event e)
         {
             // return if event canceled
@@ -313,14 +388,16 @@ namespace eDriven.Core.Events
             // find event handlers subscribed for this event
             if (_eventHandlerDict.ContainsKey(key) && null != _eventHandlerDict[key])
             {
-                // execute each handler
                 _eventHandlerDict[key].ForEach(
-                    delegate(EventHandler handler)
+                    delegate(PriorityGroup group)
                     {
-                        if (e.Canceled) // the event might have been canceled by the previous listener in the collection
-                            return;
+                        group.ForEach(delegate (EventHandler handler)
+                        {
+                            if (e.Canceled) // the event might have been canceled by the previous listener in the collection
+                                return;
 
-                        handler(e); // execute the handler with an event as argument
+                            handler(e); // execute the handler with an event as argument
+                        });
                     }
                 );
             }
@@ -407,7 +484,6 @@ namespace eDriven.Core.Events
         /// <param name="eventType"></param>
         /// <param name="bubbles"></param>
         /// <returns></returns>
-        /// <remarks>Conceived by Danko Kozar</remarks>
         public bool IsDefaultPrevented(string eventType, bool bubbles)
         {
             // prevent removing
@@ -435,5 +511,27 @@ namespace eDriven.Core.Events
 
         #endregion
 
+        #region Helper
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static readonly Comparison<PriorityGroup> PriorityComparer = delegate(PriorityGroup group1, PriorityGroup group2)
+        {
+            if (group1.Priority > group2.Priority)
+                return -1;
+
+            if (group1.Priority < group2.Priority)
+                return 1;
+
+            return 0;
+        };
+
+        #endregion
+    }
+
+    internal class PriorityGroup : List<EventHandler>
+    {
+        public int Priority;
     }
 }

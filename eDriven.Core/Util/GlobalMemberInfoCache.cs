@@ -1,8 +1,8 @@
-#region License
+﻿#region License
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,53 +26,59 @@ THE SOFTWARE.
 
 #endregion License
 
-namespace eDriven.Core.Events
+using UnityEngine;
+
+namespace eDriven.Core.Util
 {
-    /// <summary>
-    /// The event that holds the old and the new value
-    /// </summary>
-    public class IndexChangeEvent : Event
+    public class GlobalMemberInfoCache : MemberInfoCache
     {
-// ReSharper disable InconsistentNaming
+#if DEBUG
+        // ReSharper disable UnassignedField.Global
+        public static bool DebugMode;
+        // ReSharper restore UnassignedField.Global
+#endif
+
+        #region Singleton
+
+        private static GlobalMemberInfoCache _instance;
 
         /// <summary>
-        /// Constant
+        /// Singleton class for handling focus
         /// </summary>
-        public const string SELECTED_INDEX_CHANGING = "selectedIndexChanging";
-
-        /// <summary>
-        /// Constant
-        /// </summary>
-        public const string SELECTED_INDEX_CHANGED = "selectedIndexChanged";
-// ReSharper restore InconsistentNaming
-
-        /// <summary>
-        /// The zero-based index before the change.
-        /// </summary>
-        public int OldIndex;
-
-        /// <summary>
-        /// The zero-based index after the change
-        /// </summary>
-        public int Index;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="type">Event type</param>
-        public IndexChangeEvent(string type)
-            : base(type)
+        private GlobalMemberInfoCache()
         {
+            // Constructor is protected
         }
 
         /// <summary>
-        /// Constructor
+        /// Singleton instance
         /// </summary>
-        /// <param name="type">Event type</param>
-        /// <param name="target">Event target</param>
-        public IndexChangeEvent(string type, object target)
-            : base(type, target)
+        public static GlobalMemberInfoCache Instance
         {
+            get
+            {
+                if (_instance == null)
+                {
+#if DEBUG
+                    if (DebugMode)
+                        Debug.Log(string.Format("Instantiating GlobalMemberInfoCache instance"));
+#endif
+                    _instance = new GlobalMemberInfoCache();
+                    _instance.Initialize();
+                }
+
+                return _instance;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Initializes the Singleton instance
+        /// </summary>
+        private void Initialize()
+        {
+
         }
     }
 }

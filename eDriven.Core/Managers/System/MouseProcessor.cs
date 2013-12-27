@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,6 @@ namespace eDriven.Core.Managers
     /// <summary>
     /// Processes mouse events
     /// </summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
     public class MouseProcessor : UnityEventProcessorBase
     {
 #if DEBUG
@@ -47,6 +46,13 @@ namespace eDriven.Core.Managers
         public static bool DebugMode;
 #endif
         private Point _mousePosition = new Point();
+
+        /// <summary>
+        /// When we make the mousedown action, the last mousedown event is saved here<br/>
+        /// This is because the MouseEventDispatcher needs this info when building mousemove events<br/>
+        /// Mouse move events need the button info because of handling component states
+        /// </summary>
+        public static Event MouseDownEvent;
 
         /// <summary>
         /// Constructor
@@ -68,6 +74,8 @@ namespace eDriven.Core.Managers
                 Debug.Log("MouseProcessor.Process");
 #endif
             _mousePosition = new Point(e.mousePosition.x, e.mousePosition.y);
+
+            //Debug.Log("MouseProcessor.Process: " + e.mousePosition);
 
             /**
              * Note: MouseMove events could be sent in editor only!!!
@@ -95,10 +103,12 @@ namespace eDriven.Core.Managers
                     Debug.Log("MouseProcessor.MouseDown");
 #endif
                 Signal signal = MouseUtil.DifferentiateMouseButton(e.button,
-                                                                   SystemManager.MouseDownSignal,
-                                                                   SystemManager.RightMouseDownSignal,
-                                                                   SystemManager.MiddleMouseDownSignal
-                    );
+                                                               SystemManager.MouseDownSignal,
+                                                               SystemManager.RightMouseDownSignal,
+                                                               SystemManager.MiddleMouseDownSignal
+                );
+
+                MouseDownEvent = e;
 
                 if (signal.Connected)
                     signal.Emit(e, _mousePosition);
@@ -117,6 +127,8 @@ namespace eDriven.Core.Managers
                                                                    SystemManager.RightMouseUpSignal,
                                                                    SystemManager.MiddleMouseUpSignal
                     );
+
+                MouseDownEvent = null;
 
                 if (signal.Connected)
                     signal.Emit(e, _mousePosition);

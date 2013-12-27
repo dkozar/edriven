@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,8 @@ namespace eDriven.Core.Events
     /// <remarks>Coded by Danko Kozar</remarks>
     public class Event : ICloneable
     {
+        public const string CHANGE = "change";
+
         #region Properties
 
         /// <summary>
@@ -83,7 +85,7 @@ namespace eDriven.Core.Events
 
         /// <summary>
         /// The flag used by systems that support event bubbling
-        /// TRUE by default
+        /// false by default
         /// </summary>
         public bool Bubbles; // Changed from true to false on 2011-09-18
 
@@ -192,7 +194,7 @@ namespace eDriven.Core.Events
         /// Makes a shallow copy of the event
         /// </summary>
         /// <returns></returns>
-        public object Clone()
+        public virtual object Clone()
         {
             return MemberwiseClone();
         }

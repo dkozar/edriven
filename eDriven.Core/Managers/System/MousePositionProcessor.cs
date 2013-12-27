@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,6 @@ namespace eDriven.Core.Managers
     /// <summary>
     /// Processes mouse position changes
     /// </summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
     internal class MousePositionProcessor : UnityEventProcessorBase
     {
 #if DEBUG
@@ -53,6 +52,10 @@ namespace eDriven.Core.Managers
             SystemManager = systemManager;
         }
 
+        /// <summary>
+        /// Note: e is null because MouseMoveProcessor doesn't deal with Event.current! (not inside of the OnGUI)
+        /// </summary>
+        /// <param name="e"></param>
         public override void Process(Event e)
         {
 #if DEBUG
@@ -78,10 +81,11 @@ namespace eDriven.Core.Managers
                 SystemManager.MousePosition.X = _mousePosition.X;
                 SystemManager.MousePosition.Y = _mousePosition.Y;
 
-                if (SystemManager.Instance.MouseMoveSignal.Connected)
-                    SystemManager.Instance.MouseMoveSignal.Emit(e, _mousePosition.Clone());
-
                 _rawMousePosition = pos;
+                //Debug.Log("    -> _rawMousePosition:" + _rawMousePosition);
+
+                if (SystemManager.Instance.MouseMoveSignal.Connected)
+                    SystemManager.Instance.MouseMoveSignal.Emit(null, _mousePosition.Clone());
             }
         }
     }

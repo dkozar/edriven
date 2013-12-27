@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -99,6 +99,26 @@ namespace eDriven.Core.Geom
         }
 
         /// <summary>
+        /// Multiplies the point with a factor
+        /// </summary>
+        /// <param name="factor"></param>
+        /// <returns></returns>
+        public Point Multiply(float factor)
+        {
+            return new Point(X * factor, Y * factor);
+        }
+
+        /// <summary>
+        /// Divides the point X and Y values by a number
+        /// </summary>
+        /// <param name="divider"></param>
+        /// <returns></returns>
+        public Point Divide(float divider)
+        {
+            return new Point(X / divider, Y / divider);
+        }
+
+        /// <summary>
         /// Finds minimum between 2 points
         /// </summary>
         /// <param name="p"></param>
@@ -137,6 +157,16 @@ namespace eDriven.Core.Geom
             return new Vector2(X, Y);
         }
 
+        /// <summary>
+        /// Inverts the point
+        /// </summary>
+        /// <returns></returns>
+        public void Invert()
+        {
+            X = -X;
+            Y = -Y;
+        }
+
         public override string ToString()
         {
             return string.Format("Point[{0}, {1}]", X, Y);
@@ -160,27 +190,6 @@ namespace eDriven.Core.Geom
             if (obj.GetType() != typeof (Point)) return false;
             return Equals((Point) obj);
         }
-
-        // override object.Equals
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj == null || GetType() != obj.GetType())
-        //    {
-        //        return false;
-        //    }
-
-        //    Point p = (Point)obj;
-
-        //    return p.X == X && p.Y == Y;
-
-        //}
-
-        // override object.GetHashCode
-        //public override int GetHashCode()
-        //{
-        //    // TODO: write your implementation of GetHashCode() here
-        //    return base.GetHashCode();
-        //}
 
         public override int GetHashCode()
         {

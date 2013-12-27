@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,6 @@ namespace eDriven.Core.Events
     /// Describes the phase in the process of transfering an event of the particular child in the hierarchy
     /// The idea behind this enumerator is to have 6 combos, instead of only 2 (bubbling/capture phase)
     /// </summary>
-    /// <remarks>Conceived by Danko Kozar</remarks>
     [Flags]
     public enum EventPhase
     {
@@ -56,6 +55,16 @@ namespace eDriven.Core.Events
         /// Bubbling phase
         /// The phase when the event bubbles from child to top-most parent and dispatched by each component
         /// </summary>
-        Bubbling = 4 //0x2
+        Bubbling = 4, //0x2
+
+        /// <summary>
+        /// Capture and target phase
+        /// </summary>
+        CaptureAndTarget = 3, //Capture | Target,
+
+        /// <summary>
+        /// Target and bubbling phase
+        /// </summary>
+        TargetAndBubbling = 6 //Target | Bubbling
     }
 }

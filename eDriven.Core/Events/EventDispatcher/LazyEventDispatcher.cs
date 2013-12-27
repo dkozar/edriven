@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@ THE SOFTWARE.
 */
 
 #endregion License
+
+using System;
 
 namespace eDriven.Core.Events
 {
@@ -85,11 +87,36 @@ namespace eDriven.Core.Events
         /// </summary>
         /// <param name="eventType">Event type</param>
         /// <param name="handler">Event handler</param>
+        /// <param name="priority">Event priority</param>
+        public void AddEventListener(string eventType, EventHandler handler, int priority)
+        {
+            Initialize();
+            _dispatcher.AddEventListener(eventType, handler, priority);
+        }
+
+        /// <summary>
+        /// Adds the event listener
+        /// </summary>
+        /// <param name="eventType">Event type</param>
+        /// <param name="handler">Event handler</param>
         /// <param name="phases">Event bubbling phases that we listen to</param>
         public void AddEventListener(string eventType, EventHandler handler, EventPhase phases)
         {
             Initialize();
             _dispatcher.AddEventListener(eventType, handler, phases);
+        }
+
+        /// <summary>
+        /// Adds the event listener
+        /// </summary>
+        /// <param name="eventType">Event type</param>
+        /// <param name="handler">Event handler</param>
+        /// <param name="phases">Event bubbling phases that we listen to</param>
+        /// <param name="priority">Event priority</param>
+        public void AddEventListener(string eventType, EventHandler handler, EventPhase phases, int priority)
+        {
+            Initialize();
+            _dispatcher.AddEventListener(eventType, handler, phases, priority);
         }
 
         /// <summary>
@@ -133,7 +160,7 @@ namespace eDriven.Core.Events
         public bool HasEventListener(string eventType)
         {
             Initialize();
-            return HasEventListener(eventType);
+            return _dispatcher.HasEventListener(eventType);
         }
 
         /// <summary>
@@ -146,7 +173,7 @@ namespace eDriven.Core.Events
         public bool HasBubblingEventListener(string eventType)
         {
             Initialize();
-            return HasBubblingEventListener(eventType);
+            return _dispatcher.HasBubblingEventListener(eventType);
         }
 
         #endregion

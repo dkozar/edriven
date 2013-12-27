@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,9 @@ using Event=eDriven.Core.Events.Event;
 namespace eDriven.Core.Control.Keyboard
 {
     /// <summary>
-    /// Maps key gestures to event handlers
+    /// Maps key gestures to event handlers<br/>
+    /// Subscribes to KEY_DOWN and KEY_UP events and handles them internally<br/>
+    /// Note: not to be mixed with the "regular" event system
     /// </summary>
     public class KeyboardMapper : IDisposable
     {

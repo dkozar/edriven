@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,6 @@ THE SOFTWARE.
 
 #endregion License
 
-using System;
 using System.Collections.Generic;
 using eDriven.Core.Geom;
 using eDriven.Core.Mono;
@@ -44,7 +43,6 @@ namespace eDriven.Core.Managers
     /// This Singleton is a central place for emiting input signals
     /// If events needed, use SystemEventDispatcher Singleton
     /// </summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
     public sealed class SystemManager
     {
 
@@ -110,33 +108,22 @@ namespace eDriven.Core.Managers
             if (DebugMode)
                 Debug.Log(string.Format("Initializing system manager"));
 #endif
-
             /**
-             * 1.a) Instantiate SystemManagerInvoker
-             * */
-            Framework.CreateComponent<SystemManagerInvoker>(true); // exclusive, i.e. allow single instance only
-
-            /**
-             * 1.b) Instantiate SystemManagerOnGuiInvoker
-             * Keeping reference to it so we could disable it when OnGUI processing not needed
-             * */
-            _onGuiInvoker = (SystemManagerOnGuiInvoker)Framework.CreateComponent<SystemManagerOnGuiInvoker>(true); // exclusive, i.e. allow single instance only
-            _onGuiInvoker.enabled = false; // disable it by default
-
-            /**
-             * 2.a) Instantiate signals
+             * 1.a) Instantiate signals
              * */
             FixedUpdateSignal = new Signal();
             UpdateSignal = new Signal();
             LateUpdateSignal = new Signal();
             ResizeSignal = new Signal();
             DisposingSignal = new Signal();
+            LevelInitSignal = new Signal();
             LevelLoadedSignal = new Signal();
             SceneChangeSignal = new Signal();
+            GizmoSignal = new Signal();
             TouchSignal = new Signal();
 
             /**
-             * 2.b) Instantiate signals requiring OnGUI processing
+             * 1.b) Instantiate signals requiring OnGUI processing
              * */
 
             PreRenderSignal = new StateHandlingSignal(SignalStateChangedHandler);
@@ -159,13 +146,27 @@ namespace eDriven.Core.Managers
             KeyUpSignal = new StateHandlingSignal(SignalStateChangedHandler);
 
             /**
-             * 3) Instantiate processors
+             * 2) Instantiate processors
              * */
             _keyboardProcessor = new KeyboardProcessor(this);
             _mouseProcessor = new MouseProcessor(this);
             _mousePositionProcessor = new MousePositionProcessor(this);
             _touchProcessor = new TouchProcessor(this);
             _screenSizeProcessor = new ScreenSizeProcessor(this);
+
+            /**
+             * 3.a) Instantiate SystemManagerInvoker
+             * */
+            Framework.CreateComponent<SystemManagerInvoker>(true); // exclusive, i.e. allow single instance only
+
+            /**
+             * 3.b) Instantiate SystemManagerOnGuiInvoker
+             * Keeping reference to it so we could disable it when OnGUI processing not needed
+             * */
+            _onGuiInvoker = (SystemManagerOnGuiInvoker)Framework.CreateComponent<SystemManagerOnGuiInvoker>(true); // exclusive, i.e. allow single instance only
+            _onGuiInvoker.enabled = false; // disable it by default
+
+            
         }
 
         /// <summary>
@@ -218,37 +219,10 @@ namespace eDriven.Core.Managers
             }
         }
 
-        //private static bool _onGuiEnabled = true; // TRUE by default
-
-        ///// <summary>
-        ///// The entry point for switching the OnGUI processing ON/OFF</br>
-        ///// NOTE: Some things are dependant on OnGUI calls and will stop working when switched off:</br>
-        ///// 1. mouse events</br>
-        ///// 2. keyboard events</br>
-        ///// 3. eDriven.Gui rendering
-        ///// </summary>
-        //public bool OnGuiEnabled
-        //{
-        //    get
-        //    {
-        //        return _onGuiEnabled;
-        //    }
-        //    set
-        //    {
-        //        if (value != _onGuiEnabled)
-        //        {
-        //            _onGuiEnabled = value;
-        //            // process the Enable change
-        //            // if system manager not enabled, disable it so we're not stealing performance using OnGUI calls
-        //            HandleOnGuiInvokerEnabledState();
-        //        }
-        //    }
-        //}
-
         private void HandleOnGuiInvokerEnabledState()
         {
             if (null != _onGuiInvoker)
-                _onGuiInvoker.enabled = _enabled && /*_onGuiEnabled && */_activeSignals.Count > 0;
+                _onGuiInvoker.enabled = _enabled && _activeSignals.Count > 0;
         }
 
         private Point _screenSize = new Point();
@@ -283,6 +257,21 @@ namespace eDriven.Core.Managers
         /// Not every implementation has to use OnGUI, so this component could be switched OFF if no OnGUI functionality needed
         /// </summary>
         private SystemManagerOnGuiInvoker _onGuiInvoker;
+
+        /// <summary>
+        /// True if the Control key is pressed
+        /// </summary>
+        public bool ControlKeyPressed { get; internal set; }
+
+        /// <summary>
+        /// True if the Alt key is pressed
+        /// </summary>
+        public bool AltKeyPressed { get; internal set; }
+
+        /// <summary>
+        /// True if the Shift key is pressed
+        /// </summary>
+        public bool ShiftKeyPressed { get; internal set; }
 
         #endregion
 
@@ -324,9 +313,19 @@ namespace eDriven.Core.Managers
         public Signal DisposingSignal { get; private set; }
 
         /// <summary>
-        /// Fixed update signal
+        /// Level loaded signal
+        /// </summary>
+        public Signal LevelInitSignal { get; private set; }
+
+        /// <summary>
+        /// Level loaded signal
         /// </summary>
         public Signal LevelLoadedSignal { get; private set; }
+
+        /// <summary>
+        /// Gizmos signal
+        /// </summary>
+        public Signal GizmoSignal { get; private set; }
 
         /// <summary>
         /// Scene change signal
@@ -398,6 +397,15 @@ namespace eDriven.Core.Managers
         #region Methods
 
         /// <summary>
+        /// Process Awake
+        /// </summary>
+        public void ProcessAwake()
+        {
+            if (LevelInitSignal.Connected)
+                LevelInitSignal.Emit();
+        }
+
+        /// <summary>
         /// Runs on SystemManagerInvoker.OnGUI()
         /// </summary>
         public void ProcessInput()
@@ -415,6 +423,8 @@ namespace eDriven.Core.Managers
              * */
 
             Event e = Event.current;
+
+            //Debug.Log("e.isMouse: " + e.isMouse);
 
             if (e.type == EventType.Layout)
                 return; // no native layout
@@ -474,12 +484,43 @@ namespace eDriven.Core.Managers
             LateUpdateSignal.Emit();
         }
 
+        public void ProcessOnEnable()
+        {
+            //Debug.Log("SM ProcessOnEnable");
+        }
+
+        public void ProcessOnDisable()
+        {
+            //Debug.Log("SM ProcessOnDisable");
+        }
+
+        private static int _levelId = -1;
+
         /// <summary>
         /// Emits the level loaded signal
         /// </summary>
         public void ProcessLevelLoaded()
         {
-            LevelLoadedSignal.Emit();
+            /**
+             * Note: OnLevelWasLoaded fires twice when used with objects using DontDestroyOnLoad()
+             * eDriven Framework game object is one of such objects, so we have to make a check here
+             * */
+            if (_levelId == Application.loadedLevel)
+                return;
+
+            _levelId = Application.loadedLevel;
+
+            if (LevelLoadedSignal.Connected)
+                LevelLoadedSignal.Emit();
+        }
+
+        /// <summary>
+        /// Emits the gizmos signal
+        /// </summary>
+        public void ProcessOnDrawGizmos()
+        {
+            if (GizmoSignal.Connected)
+                GizmoSignal.Emit();
         }
 
         /// <summary>

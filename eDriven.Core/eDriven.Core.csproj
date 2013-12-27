@@ -32,7 +32,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,7 +50,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -90,7 +91,10 @@
     <Compile Include="Managers\TouchEventDispatcher.cs" />
     <Compile Include="Managers\System\TouchProcessor.cs" />
     <Compile Include="Mono\SystemManagerOnGuiInvoker.cs" />
-    <Compile Include="Reflection\GlobalMemberTypeCache.cs" />
+    <Compile Include="Reflection\GlobalMemberCache.cs" />
+    <Compile Include="Reflection\ISetterProxy.cs" />
+    <Compile Include="Reflection\MemberCache.cs" />
+    <Compile Include="Reflection\MemberNotFoundException.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Signals\SignalUtil.cs" />
     <Compile Include="Signals\Slot.cs" />
@@ -101,6 +105,7 @@
     <Compile Include="Control\Keyboard\KeyEventType.cs" />
     <Compile Include="Events\EventDispatcher\EventPhaseHelper.cs" />
     <Compile Include="Events\EventDispatcher\LazyEventDispatcher.cs" />
+    <Compile Include="Util\GlobalMemberInfoCache.cs" />
     <Compile Include="Util\MemberInfoCache.cs" />
     <Compile Include="Util\MouseUtil.cs" />
     <Compile Include="Mapper\IPowerMapper.cs" />
@@ -108,18 +113,15 @@
     <Compile Include="Util\AsyncLoaderCallback.cs" />
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Reflection\MemberWrapper.cs" />
-    <Compile Include="Reflection\PropertyTypeCache.cs" />
     <Compile Include="Util\ResourceLoader.cs" />
     <Compile Include="Util\ISyncLoader.cs" />
     <Compile Include="Util\IAsyncLoader.cs" />
     <Compile Include="FrameworkMonoBehaviour.cs" />
     <Compile Include="Data\Collections\ListItem.cs" />
     <Compile Include="Events\EventDispatcher\EventTypePhase.cs" />
-    <Compile Include="Events\IndexChangeEvent.cs" />
     <Compile Include="Events\EventDispatcher\EventDispatcherComponent.cs" />
     <Compile Include="Events\EventDispatcher\MulticastDelegate.cs" />
     <Compile Include="Framework.cs" />
-    <Compile Include="Geom\ConstrainMetrics.cs" />
     <Compile Include="Info.cs" />
     <Compile Include="Tasks\TaskBase.cs" />
     <Compile Include="Tasks\TaskQueue.cs" />
@@ -142,7 +144,6 @@
     <Compile Include="Signals\ISignal.cs" />
     <Compile Include="Signals\Signal.cs" />
     <Compile Include="Events\ValueChangedEvent.cs" />
-    <Compile Include="Events\CollectionEvent.cs" />
     <Compile Include="Events\EventDispatcher\Event.cs" />
     <Compile Include="Events\EventDispatcher\EventDispatcher.cs" />
     <Compile Include="Events\EventDispatcher\EventHandler.cs" />
@@ -154,7 +155,6 @@
     <Compile Include="Events\MouseEvent.cs" />
     <Compile Include="Events\ResizeEvent.cs" />
     <Compile Include="Events\ValueEvent.cs" />
-    <Compile Include="Geom\EdgeMetrics.cs" />
     <Compile Include="Geom\Point.cs" />
     <Compile Include="Geom\Rectangle.cs" />
     <Compile Include="Managers\SystemManager.cs" />
@@ -172,7 +172,7 @@
     <Compile Include="Reflection\PropertyComparer.cs" />
     <Compile Include="Util\PriorityStack.cs" />
     <Compile Include="Reflection\MemberProxy.cs" />
-    <Compile Include="Reflection\ReflectionUtil.cs" />
+    <Compile Include="Reflection\CoreReflector.cs" />
     <Compile Include="Util\Timer\Timer.cs" />
     <Compile Include="Util\Timer\TimerException.cs" />
     <Compile Include="Util\StageUtil.cs" />
@@ -207,6 +207,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)Unity\Assets\eDriven\Libs\ /Y</PostBuildEvent>
+    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)\Assets\eDriven\Libs\ /Y
+Copy $(TargetDir)$(TargetName).pdb $(SolutionDir)\Assets\eDriven\Libs\ /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

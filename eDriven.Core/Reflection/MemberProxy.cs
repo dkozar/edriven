@@ -1,3 +1,31 @@
+#region License
+
+/*
+ 
+Copyright (c) 2010-2013 Danko Kozar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+ 
+*/
+
+#endregion License
+
 using System;
 using eDriven.Core.Caching;
 
@@ -6,17 +34,16 @@ namespace eDriven.Core.Reflection
     /// <summary>
     /// Class used for proxying a member via type + string member name
     /// </summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
-    public class MemberProxy
+    public class MemberProxy : ISetterProxy
     {
-        private static Cache<VariableTypeCombo, MemberWrapper> SetterCache
+        private static MemberCache SetterCache
         {
             get
             {
                 if (UseGlobalMemberCache)
-                    return GlobalMemberTypeCache.Instance;
+                    return GlobalMemberCache.Instance;
 
-                return new Cache<VariableTypeCombo, MemberWrapper>();
+                return new MemberCache();
             }
         }
 
@@ -31,8 +58,8 @@ namespace eDriven.Core.Reflection
         public static bool UseGlobalMemberCache = true;
 
         private static Type _type;
-        private object _target;
-        private string _variable;
+        private readonly object _target;
+        private readonly string _variable;
         private bool _initialized;
 
         /// <summary>
@@ -47,7 +74,6 @@ namespace eDriven.Core.Reflection
             Initialize();
         }
 
-        private static readonly VariableTypeCombo Combo = new VariableTypeCombo();
         private MemberWrapper _setter;
 
         private void Initialize()
@@ -60,19 +86,15 @@ namespace eDriven.Core.Reflection
 
             _type = _target.GetType();
 
-            // get it from cache
-            Combo.Type = _type;
-            Combo.Variable = _variable;
-
             if (DoCacheMembers)
             {
-                _setter = SetterCache.Get(Combo);
+                _setter = SetterCache.Get(_type, _variable);
 
                 if (null == _setter) // if nothing cached yet
                 {
                     // cache it
                     _setter = new MemberWrapper(_type, _variable);
-                    SetterCache.Put(Combo, _setter);
+                    SetterCache.Put(_type, _variable, _setter);
                 }
             }
             else
@@ -88,12 +110,17 @@ namespace eDriven.Core.Reflection
         private Type _memberType;
         /// <summary>
         /// Member type resolved by this proxy
+        /// Used for evaludating the right interpolator
         /// </summary>
         public Type MemberType
         {
             get
             {
                 return _memberType;
+            }
+            set
+            {
+                _memberType = value;
             }
         }
 

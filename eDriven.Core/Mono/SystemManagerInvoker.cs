@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,6 @@ namespace eDriven.Core.Mono
     /// Since Unity doesn't offer the "master clock" functionality, we have to steal it from one of the GameObjects<br/>
     /// This component is created lazily by SystemManager itself the first time it is being referenced
     /// </summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
     [Obfuscation(Exclude = true)]
     public sealed class SystemManagerInvoker : MonoBehaviour
     {
@@ -55,8 +54,17 @@ namespace eDriven.Core.Mono
 //        }
 
         [Obfuscation(Exclude = true)]
+        void Awake()
+        {
+            //Debug.Log("### SMI Awake ###");
+            _systemManager = SystemManager.Instance;
+            _systemManager.ProcessAwake();
+        }
+
+        [Obfuscation(Exclude = true)]
         void Start()
         {
+            //Debug.Log("### SMI Start ###");
             _systemManager = SystemManager.Instance;
         }
 
@@ -78,35 +86,42 @@ namespace eDriven.Core.Mono
             _systemManager.ProcessLateUpdate();
         }
 
-//// ReSharper disable InconsistentNaming
-//        [Obfuscation(Exclude = true)]
-//        void OnGUI()
-//// ReSharper restore InconsistentNaming
-//        {
-//            _systemManager.ProcessInput();
-//        }
-
         [Obfuscation(Exclude = true)]
         void OnEnable()
         {
+            //Debug.Log("### SMI OnEnable ###");
             _systemManager = SystemManager.Instance;
+            _systemManager.ProcessOnEnable();
         }
 
         [Obfuscation(Exclude = true)]
         void OnDisable()
         {
-            if (null != _systemManager)
+            //Debug.Log("### SMI OnDisable ###");
+            _systemManager = SystemManager.Instance;
+            _systemManager.ProcessOnDisable();
+            /*if (null != _systemManager)
             {
                 if (_systemManager.SceneChangeSignal.Connected)
                     _systemManager.SceneChangeSignal.Emit();
-            }
+            }*/
         }
 
         [Obfuscation(Exclude = true)]
         void OnLevelWasLoaded()
         {
-            if (_systemManager.LevelLoadedSignal.Connected)
-                _systemManager.LevelLoadedSignal.Emit();
+            //Debug.Log(string.Format("### SMI OnLevelWasLoaded ### "));
+            _systemManager = SystemManager.Instance;
+            _systemManager.ProcessLevelLoaded();
+        }
+
+        [Obfuscation(Exclude = true)]
+// ReSharper disable once UnusedMember.Local
+        void OnDrawGizmos()
+        // ReSharper restore UnusedMember.Local
+        {
+            _systemManager = SystemManager.Instance;
+            _systemManager.ProcessOnDrawGizmos();
         }
     }
 }

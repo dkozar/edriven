@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,23 +32,104 @@ using UnityEngine;
 namespace eDriven.Core.Geom
 {
     /// <summary>
-    /// The class used for specifying rectangular dimensions and doing the rectangle math
+    /// The class used for specifying rectangular size and doing the rectangle math
     /// </summary>
     /// <remarks>Coded by Danko Kozar</remarks>
     public class Rectangle : ICloneable
     {
         #region Properties
 
+        #region Values
+
+        private float _x;
         /// <summary>
-        /// Zero rectangle
+        /// X coordinate
         /// </summary>
-        public static Rectangle Zero
+        public float X
+        {
+            get { return _x; }
+            set { _x = value; }
+        }
+
+        private float _y;
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
+        public float Y
+        {
+            get { return _y; }
+            set { _y = value; }
+        }
+
+        private float _width;
+        /// <summary>
+        /// Width
+        /// </summary>
+        public float Width
+        {
+            get { return _width; }
+            set { _width = value; }
+        }
+
+        private float _height;
+        /// <summary>
+        /// Height
+        /// </summary>
+        public float Height
+        {
+            get { return _height; }
+            set { _height = value; }
+        }
+
+        /// <summary>
+        /// Alias for X
+        /// </summary>
+        public float Left
+        {
+            get { return _x; }
+            set { _x = value; }
+        }
+
+        /// <summary>
+        /// X max getter
+        /// </summary>
+        public float Right
         {
             get
             {
-                return new Rectangle(0, 0, 0, 0);
+                return _x + _width;
+            }
+            set
+            {
+                _width = value - _x;
             }
         }
+
+        /// <summary>
+        /// Alias for Y
+        /// </summary>
+        public float Top
+        {
+            get { return _y; }
+            set { _y = value; }
+        }
+
+        /// <summary>
+        /// Y max getter
+        /// </summary>
+        public float Bottom
+        {
+            get
+            {
+                return _y + _height;
+            }
+            set
+            {
+                _height = value - _y;
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Returns rectangle position
@@ -66,10 +147,36 @@ namespace eDriven.Core.Geom
             }
         }
 
+        public Point TopLeft
+        {
+            get
+            {
+                return new Point(_x, _y);
+            }
+            set
+            {
+                _x = value.X;
+                _y = value.Y;
+            }
+        }
+
+        public Point BottomRight
+        {
+            get
+            {
+                return new Point(Right, Bottom);
+            }
+            set
+            {
+                Right = value.X;
+                Bottom = value.Y;
+            }
+        }
+
         /// <summary>
-        /// Returns rectangle dimensions
+        /// Returns rectangle size
         /// </summary>
-        public Point Dimensions
+        public Point Size
         {
             get
             {
@@ -103,134 +210,6 @@ namespace eDriven.Core.Geom
                 return _center;   
             }
         }
-
-        #region Normal
-
-        private float _x;
-        /// <summary>
-        /// X coordinate
-        /// </summary>
-        public float X
-        {
-            get { return _x; }
-            set { _x = value; }
-        }
-
-        /// <summary>
-        /// Min X coordinate
-        /// Alias for X
-        /// </summary>
-        public float XMin
-        {
-            get { return _x; }
-            set { _x = value; }
-        }
-
-        private float _y;
-        /// <summary>
-        /// Y coordinate
-        /// </summary>
-        public float Y
-        {
-            get { return _y; }
-            set { _y = value; }
-        }
-
-        /// <summary>
-        /// Min Y coordinate
-        /// Alias for Y
-        /// </summary>
-        public float YMin
-        {
-            get { return _y; }
-            set { _y = value; }
-        }
-
-        private float _width;
-        /// <summary>
-        /// Width
-        /// </summary>
-        public float Width
-        {
-            get { return _width; }
-            set { _width = value; }
-        }
-
-        private float _height;
-        /// <summary>
-        /// Height
-        /// </summary>
-        public float Height
-        {
-            get { return _height; }
-            set { _height = value; }
-        }
-
-        /// <summary>
-        /// X max getter
-        /// </summary>
-        public float XMax
-        {
-            get
-            {
-                return _x + _width;
-            }
-        }
-
-        /// <summary>
-        /// Y max getter
-        /// </summary>
-        public float YMax
-        {
-            get
-            {
-                return _y + _height;
-            }
-        }
-
-        #endregion
-
-        #region Constrain-based
-
-        /// <summary>
-        /// Left
-        /// </summary>
-        public float Left
-        {
-            get { return _x; }
-            set { _x = value; }
-        }
-
-        /// <summary>
-        /// Top
-        /// </summary>
-        public float Top
-        {
-            get { return _y; }
-            set { _y = value; }
-        }
-
-        private float _right;
-        /// <summary>
-        /// Right
-        /// </summary>
-        public float Right
-        {
-            get { return _right; }
-            set { _right = value; }
-        }
-
-        private float _bottom;
-        /// <summary>
-        /// Bottom
-        /// </summary>
-        public float Bottom
-        {
-            get { return _bottom; }
-            set { _bottom = value; }
-        }
-
-        #endregion
 
         #endregion
 
@@ -283,28 +262,28 @@ namespace eDriven.Core.Geom
         }
 
         /// <summary>
-        /// Creates a rectangle from position and dimensions
+        /// Creates a rectangle from position and size
         /// </summary>
         /// <param name="position"></param>
-        /// <param name="dimensions"></param>
+        /// <param name="size"></param>
         /// <returns></returns>
-        public static Rectangle FromPositionAndDimensions(Point position, Point dimensions)
+        public static Rectangle FromPositionAndSize(Point position, Point size)
         {
-            return new Rectangle(position.X, position.Y, dimensions.X, dimensions.Y);
+            return new Rectangle(position.X, position.Y, size.X, size.Y);
         }
 
         /// <summary>
-        /// Creates a rectangle from dimensions
+        /// Creates a rectangle from size
         /// </summary>
-        /// <param name="dimensions"></param>
+        /// <param name="size"></param>
         /// <returns></returns>
-        public static Rectangle FromDimensions(Point dimensions)
+        public static Rectangle FromSize(Point size)
         {
-            return new Rectangle(0, 0, dimensions.X, dimensions.Y);
+            return new Rectangle(0, 0, size.X, size.Y);
         }
 
         /// <summary>
-        /// Creates a rectangle from dimensions
+        /// Creates a rectangle from size
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
@@ -397,16 +376,6 @@ namespace eDriven.Core.Geom
         }
 
         /// <summary>
-        /// Expands rectangle
-        /// </summary>
-        /// <param name="edgeMetrics"></param>
-        /// <returns></returns>
-        public Rectangle Expand(EdgeMetrics edgeMetrics)
-        {
-            return Expand(edgeMetrics.Left, edgeMetrics.Right, edgeMetrics.Top, edgeMetrics.Bottom);
-        }
-
-        /// <summary>
         /// Collapses a rectangle
         /// </summary>
         /// <param name="left"></param>
@@ -419,8 +388,12 @@ namespace eDriven.Core.Geom
             Rectangle r = (Rectangle) Clone();
             r.X += left;
             r.Width -= (left + right);
+            r.Width = Math.Max(r.Width, 0);
+            //r.Right -= right;
             r.Y += top;
             r.Height -= (top + bottom);
+            r.Height = Math.Max(r.Height, 0);
+            //r.Bottom -= bottom;
             return r;
         }
 
@@ -432,16 +405,6 @@ namespace eDriven.Core.Geom
         public Rectangle Collapse(float amount)
         {
             return Collapse(amount, amount, amount, amount);
-        }
-
-        /// <summary>
-        /// Collapses a rectangle
-        /// </summary>
-        /// <param name="edgeMetrics"></param>
-        /// <returns></returns>
-        public Rectangle Collapse(EdgeMetrics edgeMetrics)
-        {
-            return Collapse(edgeMetrics.Left, edgeMetrics.Right, edgeMetrics.Top, edgeMetrics.Bottom);
         }
 
         #endregion
@@ -494,16 +457,54 @@ namespace eDriven.Core.Geom
         /// <returns></returns>
         public bool Contains(Point point)
         {
-            //if (point.X >= X && point.Y >= Y && point.X < XMax && point.Y < YMax)
-            //    return true;
-
-            //return false;
-
             // inversion, early return
-            if (point.X < X || point.Y <= Y || point.X >= XMax || point.Y > YMax)
+            if (point.X < X || point.Y <= Y || point.X >= Right || point.Y > Bottom)
                 return false;
 
             return true;
+        }
+
+        #endregion
+
+        #region Rect operations
+
+        /// <summary>
+        /// Returns true if two rectangles intersect
+        /// </summary>
+        /// <param name="rectangle"></param>
+        /// <returns></returns>
+        public bool Intersects(Rectangle rectangle)
+        {
+            // reverse logic - early exit
+            return !(Left > rectangle.Right ||
+               Right < rectangle.Left ||
+               Top > rectangle.Bottom ||
+               Bottom < rectangle.Top);
+        }
+
+        /// <summary>
+        /// Checks if a given rectangle is placed inside this rectangle
+        /// </summary>
+        /// <param name="rectangle"></param>
+        /// <returns></returns>
+        public bool Contains(Rectangle rectangle)
+        {
+            return (rectangle.Left >= Left &&
+               rectangle.Right <= Right &&
+               rectangle.Top >= Top &&
+               rectangle.Bottom <= Bottom);
+        }
+
+        /// <summary>
+        /// Constrains this rectangle inside another rectangle's bounds
+        /// </summary>
+        /// <param name="rectangle"></param>
+        public void ConstrainWithin(Rectangle rectangle)
+        {
+            X = Math.Max(X, rectangle.X);
+            Y = Math.Max(Y, rectangle.Y);
+            Right = Math.Min(Right, rectangle.Right);
+            Bottom = Math.Min(Bottom, rectangle.Bottom);
         }
 
         #endregion
@@ -530,6 +531,23 @@ namespace eDriven.Core.Geom
         }
 
         #endregion
+
+        #endregion
+
+        #region Static
+
+        /// <summary>
+        /// Zero rectangle
+        /// </summary>
+        // ReSharper disable UnusedMember.Global
+        public static Rectangle Zero
+        // ReSharper restore UnusedMember.Global
+        {
+            get
+            {
+                return new Rectangle(0, 0, 0, 0);
+            }
+        }
 
         #endregion
 

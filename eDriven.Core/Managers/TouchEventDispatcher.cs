@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,6 @@ THE SOFTWARE.
 using System.Collections.Generic;
 using eDriven.Core.Events;
 using UnityEngine;
-using Event=UnityEngine.Event;
 using EventHandler=eDriven.Core.Events.EventHandler;
 using MulticastDelegate=eDriven.Core.Events.MulticastDelegate;
 
@@ -39,7 +38,6 @@ namespace eDriven.Core.Managers
     /// Connects to SystemManager signals
     /// Dispatches touch events to interested parties
     /// </summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
     public sealed class TouchEventDispatcher : EventDispatcher
     {
 

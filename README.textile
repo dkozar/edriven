@@ -7,7 +7,7 @@ h2. Author: Danko Kozar
 h2. Concept
 
  * eDriven framework is the result of 10 years of programming experience, self-education and research.
- * It is the adapter for Unity to get it to work as an asynchronous system.
+ * It turns Unityinto an asynchronous system.
  * It's inspired by RIA (Rich Internet Applications) frameworks, such as Apache Flex and other Actionscript and Javascript frameworks.
  * The idea behind building a framework was to bring the event-driven (publish-subscribe type of) programming paradigm to Unity.
  * There have been a number of libraries for Unity, but I decided to go with my own. That's because I wanted to build additional libraries upon my event-dispatching system and wanted the total control.
@@ -67,14 +67,14 @@ eDriven framework contains a number of classes:
 
 h2. Resources
 
-* "eDriven Programming Manual":http://edriven.dankokozar.com/manual/eDriven_Manual_1-0.pdf (note: eDriven.Gui and eDriven.Animation also included)
-* "eDriven API":http://edriven.dankokozar.com/api/1-0/ (note: eDriven.Gui and eDriven.Animation also included)
+* "eDriven Programming Manual":http://edriven.dankokozar.com/manual/eDriven_Manual_2-0.pdf (note: eDriven.Gui and eDriven.Animation also included)
+* "eDriven API":http://edriven.dankokozar.com/api/2-0/ (note: eDriven.Gui and eDriven.Animation also included)
 * "AssetStore":http://u3d.as/content/adjungo/e-driven/308
 * "Additional downloads":http://code.google.com/p/edriven/downloads/list
 * "Videos":http://www.youtube.com/playlist?list=PL7EE340828F962941
 * "eDriven.Gui site":http://edrivengui.com/
 * "Demo site":http://edrivenunity.com/ (requires Unity web player)
-* "Unity Forum thread":http://forum.unity3d.com/threads/76835-eDriven-framework-for-Unity-released?p=492016#post492016
+* "eDriven Forum":http://forum.edrivengui.com/
 * "Unity Forum Q&A thread":http://forum.unity3d.com/threads/148424-eDriven-Q-amp-A
 * "Author's homepage":http://dankokozar.com
 * "I’m @DankoKozar on Twitter":https://twitter.com/DankoKozar.

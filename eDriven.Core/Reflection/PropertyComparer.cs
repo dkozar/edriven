@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -86,8 +86,8 @@ namespace eDriven.Core.Reflection
         public int Compare(T xWord, T yWord)
         {
             // GetEaser property values
-            object xValue = ReflectionUtil.GetValue(xWord, _sortField);
-            object yValue = ReflectionUtil.GetValue(yWord, _sortField);
+            object xValue = CoreReflector.GetValue(xWord, _sortField);
+            object yValue = CoreReflector.GetValue(yWord, _sortField);
 
             // Determine sort order
             if (_descending)

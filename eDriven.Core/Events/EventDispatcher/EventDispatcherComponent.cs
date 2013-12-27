@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2012 Danko Kozar
+Copyright (c) 2010-2013 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,9 +37,8 @@ namespace eDriven.Core.Events
     /// MonoBehaviour with event dispatching possibilities
     /// You should extend this class
     ///</summary>
-    /// <remarks>Conceived and coded by Danko Kozar</remarks>
     [AddComponentMenu("eDriven/Core/EventDispatcherComponent")]
-
+    [Obfuscation(Exclude = true)]
     public class EventDispatcherComponent : MonoBehaviour, IEventDispatcher, IDisposable
     {
         /// <summary>
@@ -86,10 +85,35 @@ namespace eDriven.Core.Events
         /// </summary>
         /// <param name="eventType">Event type</param>
         /// <param name="handler">Event handler</param>
+        /// <param name="priority">Event priority</param>
+        public void AddEventListener(string eventType, EventHandler handler, int priority)
+        {
+            _dispatcher.AddEventListener(eventType, handler, priority);
+            HandleAddTarget(handler);
+        }
+
+        /// <summary>
+        /// Adds the event listener
+        /// </summary>
+        /// <param name="eventType">Event type</param>
+        /// <param name="handler">Event handler</param>
         /// <param name="phases">Event bubbling phases that we listen to</param>
         public void AddEventListener(string eventType, EventHandler handler, EventPhase phases)
         {
             _dispatcher.AddEventListener(eventType, handler, phases);
+            HandleAddTarget(handler);
+        }
+
+        /// <summary>
+        /// Adds the event listener
+        /// </summary>
+        /// <param name="eventType">Event type</param>
+        /// <param name="handler">Event handler</param>
+        /// <param name="phases">Event bubbling phases that we listen to</param>
+        /// <param name="priority">Event priority</param>
+        public void AddEventListener(string eventType, EventHandler handler, EventPhase phases, int priority)
+        {
+            _dispatcher.AddEventListener(eventType, handler, phases, priority);
             HandleAddTarget(handler);
         }
 
