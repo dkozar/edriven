@@ -1,8 +1,8 @@
-﻿#region License
+#region License
 
 /*
  
-Copyright (c) 2010-2013 Danko Kozar
+Copyright (c) 2010-2014 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,24 +26,14 @@ THE SOFTWARE.
 
 #endregion License
 
-/*using UnityEngine;
-
-namespace eDriven.Core.Callback
+namespace eDriven.Drupal7
 {
-    /// <summary>
-    /// A class that handles WWW bundle loading
-    /// </summary>
-    public class WwwQueue : CallbackQueue<WWW>
+    public class BodyValueObject : ValueObject
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public WwwQueue()
-        {
-            FinishedChecker = delegate(WWW request)
-                                  {
-                                      return request.isDone;
-                                  };
-        }
+        [JsonFx.Json.JsonName("summary")]
+        public string Summary;
+
+        [JsonFx.Json.JsonName("safe_summary")]
+        public string SafeSummary;
     }
-}*/
+}

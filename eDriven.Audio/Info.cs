@@ -3,9 +3,9 @@
     public sealed class Info
     {
         public const string AssemblyName = "eDriven.Audio";
-        public const string AssemblyVersion = "2.0.1";
+        public const string AssemblyVersion = "2.4.0";
         public const string Author = "Danko Kozar";
-        public const string Copyright = "Copyright (c) Danko Kozar 2010-2013";
+        public const string Copyright = "Copyright (c) Danko Kozar 2010-2014";
         public const string Web = "edriven.dankokozar.com";
 
         public override string ToString()

@@ -33,7 +33,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,6 +114,7 @@
     <Compile Include="Util\AsyncLoaderCallback.cs" />
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Reflection\MemberWrapper.cs" />
+    <Compile Include="Util\Randomizer.cs" />
     <Compile Include="Util\ResourceLoader.cs" />
     <Compile Include="Util\ISyncLoader.cs" />
     <Compile Include="Util\IAsyncLoader.cs" />
@@ -158,18 +160,15 @@
     <Compile Include="Geom\Point.cs" />
     <Compile Include="Geom\Rectangle.cs" />
     <Compile Include="Managers\SystemManager.cs" />
-    <Compile Include="Callback\AssetBundleQueue.cs" />
     <Compile Include="Callback\CallbackQueue.cs" />
     <Compile Include="Test\CallbackQueue\TestQueue.cs" />
     <Compile Include="Test\CallbackQueue\TestRequest.cs" />
-    <Compile Include="Callback\WwwQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\ComponentUtil.cs" />
     <Compile Include="Util\TypedPriorityStack.cs" />
     <Compile Include="Util\GameObjectUtil.cs" />
     <Compile Include="Util\LogUtil.cs" />
     <Compile Include="Util\ObjectPool.cs" />
-    <Compile Include="Reflection\PropertyComparer.cs" />
     <Compile Include="Util\PriorityStack.cs" />
     <Compile Include="Reflection\MemberProxy.cs" />
     <Compile Include="Reflection\CoreReflector.cs" />

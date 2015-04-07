@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2010-2013 Danko Kozar
+Copyright (c) 2010-2014 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,24 +26,14 @@ THE SOFTWARE.
 
 #endregion License
 
-/*using UnityEngine;
-
-namespace eDriven.Core.Callback
+namespace eDriven.Drupal7.System
 {
-    /// <summary>
-    /// A class that handles asset bundle loading
-    /// </summary>
-    public class AssetBundleQueue : CallbackQueue<AssetBundleRequest>
+    public class SetVariable
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public AssetBundleQueue()
-        {
-            FinishedChecker = delegate(AssetBundleRequest request)
-                                  {
-                                      return request.isDone;
-                                  };
-        }
+        [JsonFx.Json.JsonName("name")]
+        public string Name;
+
+        [JsonFx.Json.JsonName("value")]
+        public string Value;
     }
-}*/
+}

@@ -2,7 +2,7 @@
 
 /*
  
-Copyright (c) 2010-2013 Danko Kozar
+Copyright (c) 2010-2014 Danko Kozar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -195,7 +195,7 @@ namespace eDriven.Core.Events
         {
             //Debug.Log("HandleAddTarget: " + handler.Method.Name);
 
-            if (null != handler.Target && handler.Target is MonoBehaviour)
+            if (handler.Target is MonoBehaviour)
             {
                 GameObject go = ((MonoBehaviour) handler.Target).gameObject;
                 if (!_targets.Contains(go))
