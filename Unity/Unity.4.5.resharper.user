@@ -1,0 +1,31 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <RecentFiles>
+    <RecentFiles />
+    <RecentEdits />
+  </RecentFiles>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="private" priority="1" />
+      <Item value="Object" priority="1" />
+      <Item value="if" priority="3" />
+      <Item value="null" priority="2" />
+      <Item value="Destroy" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:UnityEngine.AssetBundle">
+      <Item value="Unload" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>

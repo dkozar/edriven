@@ -1,0 +1,1 @@
+﻿public class ConfigLoader : eDriven.Networking.Configuration.ConfigLoader { /* ADAPTER */ }

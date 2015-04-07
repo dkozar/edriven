@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8C6F8892-C680-58FD-6662-B41DA45F89DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Irrelevant</RootNamespace>
+    <AssemblyName>Irrelvant</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_3_3_0;UNITY_3_3;UNITY_EDITOR;ENABLE_PROFILER;UNITY_WEBPLAYER;ENABLE_GENERICS;ENABLE_DUCK_TYPING;ENABLE_TERRAIN;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CLOTH;ENABLE_WWW</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Boo.Lang, Version=2.0.9.5, Culture=neutral, PublicKeyToken=32c39770e9a21a67">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\Mono\lib\mono\unity\Boo.Lang.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityScript, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\Mono\lib\mono\unity\UnityScript.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonFx.Json, Version=1.4.1003.3007, Culture=neutral, PublicKeyToken=315052dd637f8a52">
+      <HintPath>Assets\Libs\3rdParty\JsonFx.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\eDriven\Adapters\Networking\ConfigLoader.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\CallbackQueue\Demo1\Main1CSa.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\CallbackQueue\Demo1\Main1CSb.cs" />
+    <None Include="Assets\eDriven\Demo\Core\CallbackQueue\Demo1\Main1JS.js" />
+    <Compile Include="Assets\eDriven\Demo\Core\CallbackQueue\Demo2\Main2CSa.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\CallbackQueue\Demo2\Main2CSb.cs" />
+    <None Include="Assets\eDriven\Demo\Core\CallbackQueue\Demo2\Main2JS.js" />
+    <Compile Include="Assets\eDriven\Demo\Core\CallbackQueue\Demo3\Main3CS.cs" />
+    <None Include="Assets\eDriven\Demo\Core\CallbackQueue\Demo3\Main3JS.js" />
+    <Compile Include="Assets\eDriven\Demo\Core\ChangeWatcher\ChangeWatcherDemo.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\ChangeWatcher\ChangeWatcherScript.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\ChangeWatcher\WatchTargetScript.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\EventDispatcher\Demo1\CustomEvent.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\EventDispatcher\Demo1\EventDispatcherDemo1.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\EventDispatcher\Demo1\EventDispatcherScript.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\EventDispatcher\Demo1\EventListenerScript.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\EventDispatcher\Demo2\EventDispatcherDemo2.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\EventDispatcher\Demo2\EventDispatcherScript2.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\EventDispatcher\Demo2\EventListenerScript2.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\Keyboard\KeyboardMapperDemo.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\MVC\_Controllers\GuiController.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\MVC\_Controllers\KeyboardController.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\MVC\_Models\GameModel.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\MVC\_Views\GameStateView.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\MVC\MvcDemo.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\MVC\ObjectCreator3.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\SystemManager\Demo1\SystemManagerDemo1.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\SystemManager\Demo2\ObjectCreator.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\SystemManager\Demo2\SystemManagerDemo2.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\Timer\Demo1\TimerDemo1.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\Timer\Demo2\ObjectCreator2.cs" />
+    <Compile Include="Assets\eDriven\Demo\Core\Timer\Demo2\TimerDemo2.cs" />
+    <None Include="Assets\eDriven\Demo\_shared\Materials\Diamond\diamond shader.shader" />
+    <None Include="Assets\eDriven\Demo\_shared\Scripts\FPSWalker.js" />
+    <Compile Include="Assets\eDriven\Demo\_shared\Scripts\MouseLook.cs" />
+    <Compile Include="Assets\eDriven\Demo\_shared\Scripts\MouseLook2.cs" />
+    <None Include="Assets\eDriven\Demo\_shared\Scripts\MouseOrbit.js" />
+    <Compile Include="Assets\eDriven\Demo\_shared\Scripts\MouseOrbitCs.cs" />
+    <Compile Include="Assets\eDriven\Demo\_shared\Scripts\Randomizer.cs" />
+    <Compile Include="Assets\Libs\3rdParty\iTween.cs" />
+    <None Include="Assets\Libs\3rdParty\JsonFx.Json.xml" />
+    <None Include="Assets\Resources\Config\asset_loader_config.xml" />
+    <None Include="Assets\Resources\Config\config.xml" />
+    <None Include="Assets\Resources\Config\content_rotator_test_config.xml" />
+    <None Include="Assets\Resources\Config\editor_config.xml" />
+    <None Include="Assets\Resources\Config\loader_test_config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\eDriven.3D\eDriven.3D.csproj">
+      <Project>{b15fd0db-cc32-4430-9011-de1adb016de5}</Project>
+      <Name>eDriven.3D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eDriven.Animation\eDriven.Animation.csproj">
+      <Project>{8ac27378-7b1d-420b-ac44-af217c6e23cc}</Project>
+      <Name>eDriven.Animation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eDriven.Audio\eDriven.Audio.csproj">
+      <Project>{17e1ee8e-d5bb-4816-8548-abb5b78a5eaf}</Project>
+      <Name>eDriven.Audio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eDriven.Core\eDriven.Core.csproj">
+      <Project>{f4447751-b5fb-43ce-88f5-9bdf05b87f1e}</Project>
+      <Name>eDriven.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eDriven.Drupal7\eDriven.Drupal7.csproj">
+      <Project>{C7B0C53E-3807-4443-A0EF-7603493C2B8C}</Project>
+      <Name>eDriven.Drupal7</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eDriven.Networking\eDriven.Networking.csproj">
+      <Project>{7d407ba0-36e8-4b16-b69f-4ae63fad1a8b}</Project>
+      <Name>eDriven.Networking</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,5 @@
+Solution "Unity.sln"
+--------------------
+
+- solution references projects located one folder up
+- each project has defined a post-build command for copying the .DLL (that it builds) into the "Unity\Assets\eDriven\Libs" folder (this folder is visible by Unity)
