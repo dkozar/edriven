@@ -114,7 +114,6 @@
     <Compile Include="Util\AsyncLoaderCallback.cs" />
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Reflection\MemberWrapper.cs" />
-    <Compile Include="Util\Randomizer.cs" />
     <Compile Include="Util\ResourceLoader.cs" />
     <Compile Include="Util\ISyncLoader.cs" />
     <Compile Include="Util\IAsyncLoader.cs" />
