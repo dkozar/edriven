@@ -51,5 +51,10 @@ Temporary Items
 *.obproj.map
 *.tmp
 *.resharper
+_ReSharper.eDriven/
+_ReSharper.eDriven.Playground/
+_ReSharper.Unity/
+Backup/
+Library/
 bin/
 obj/
