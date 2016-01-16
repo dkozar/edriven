@@ -4,6 +4,8 @@ h1. Event-driven / asynchronous framework for "Unity3d":http://unity3d.com/.
 
 h2. Author: Danko Kozar
 
+<img src="http://dankokozar.com/images/edriven-800.png"></img>
+
 h2. Concept
 
  * eDriven framework is the result of 10 years of programming experience, self-education and research.
@@ -77,4 +79,4 @@ h2. Resources
 * "eDriven Forum":http://forum.edrivengui.com/
 * "Unity Forum Q&A thread":http://forum.unity3d.com/threads/148424-eDriven-Q-amp-A
 * "Author's homepage":http://dankokozar.com
-* "I’m @DankoKozar on Twitter":https://twitter.com/DankoKozar.
+* "Iâ€™m @DankoKozar on Twitter":https://twitter.com/DankoKozar.
