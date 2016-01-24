@@ -22,6 +22,14 @@ h2. Concept
 
 h2. Event syntax
 
+Publish:
+
+<pre><code>MouseEvent me = new MouseEvent(MouseEvent.CLICK);
+button.DispatchEvent(me);
+</code></pre>
+
+Subscribe:
+
 <pre><code>button.AddEventListener(MouseEvent.CLICK, ClickHandler);
 
 private void ClickHandler(Event e) // eDriven.Core.Events.Event
@@ -34,16 +42,24 @@ private void ClickHandler(Event e) // eDriven.Core.Events.Event
 	Point position = me.GlobalPosition;
 	Debug.Log("Clicked at position: " + position);
 }
-
 </code></pre>
 
 h2. Signal syntax
 
-<pre><code>button.ClickSignal.Connect(ClickSlot);
+Publish:
+
+<pre><code>Signal ClickSignal = new Signal();
+ClickSignal.Emit("foo");
+</code></pre>
+
+Subscribe:
+
+<pre><code>ClickSignal.Connect(ClickSlot);
 
 private void ClickSlot(params object[] parameters)
 {
 	// do something with parameters (we got to know the number of parameters and each one's type)
+	String param1 = (String)parameters[0]; // "foo"
 }
 </code></pre>
 
