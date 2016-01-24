@@ -49,7 +49,7 @@ h2. Signal syntax
 Publish:
 
 <pre><code>Signal ClickSignal = new Signal();
-ClickSignal.Emit("foo");
+ClickSignal.Emit("foo", "bar", 3);
 </code></pre>
 
 Subscribe:
@@ -59,7 +59,9 @@ Subscribe:
 private void ClickSlot(params object[] parameters)
 {
 	// do something with parameters (we got to know the number of parameters and each one's type)
-	String param1 = (String)parameters[0]; // "foo"
+	string first = (string)parameters[0]; // "foo"
+	string second = (string)parameters[1]; // "bar"
+	int third = (int)parameters[2]; // 3
 }
 </code></pre>
 
