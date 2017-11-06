@@ -49,8 +49,11 @@ class Main3JS extends MonoBehaviour {
 	{
 		Debug.Log("Bundle loaded: " + request.url);
 		_bundle = request.assetBundle;
-		
+	#if UNITY_5_0_OR_NEWER || UNITY_2017_1_OR_NEWER
+	var assetBundleRequest:AssetBundleRequest = _bundle.LoadAssetAsync(GetAssetName(request.url), typeof (GameObject));
+	#else
 		var assetBundleRequest:AssetBundleRequest = _bundle.LoadAsync(GetAssetName(request.url), typeof (GameObject));
+	#endif
 
 		_assetQueue.Send(assetBundleRequest, AssetLoadedHandler);
 	}

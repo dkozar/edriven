@@ -51,8 +51,11 @@ public class Main3CS : MonoBehaviour
 					
                     Debug.Log("Bundle loaded: " + request.url);
                     _loadedBundles.Add(request.assetBundle);
-
-                    AssetBundleRequest assetBundleRequest = request.assetBundle.LoadAsync(assetName, typeof(GameObject));
+#if UNITY_5_0_OR_NEWER || UNITY_2017_1_OR_NEWER
+                    AssetBundleRequest assetBundleRequest = request.assetBundle.LoadAssetAsync(assetName, typeof(GameObject));
+#else
+        AssetBundleRequest assetBundleRequest = request.assetBundle.LoadAsync(AssetName, typeof(GameObject));
+#endif
                     _assetBundleQueue.Send(assetBundleRequest,
                         delegate(AssetBundleRequest request2)
                         {
