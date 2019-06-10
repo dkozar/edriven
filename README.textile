@@ -4,7 +4,7 @@ h1. Event-driven / asynchronous framework for "Unity3d":http://unity3d.com/.
 
 h2. Author: "Danko Kozar":http://dankokozar.com
 
-<img src="http://dankokozar.com/images/edriven-800.png"></img>
+<img src="./images/edriven.png"></img>
 
 h2. Concept
 

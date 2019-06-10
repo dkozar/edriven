@@ -1,0 +1,30 @@
+{
+  "name": "edriven",
+  "version": "2.4.1",
+  "description": "Unity3d event-driven framework",
+  "main": "Unity/Unity.sln",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkozar/edriven.git"
+  },
+  "keywords": [
+    "unity",
+    "unity3d",
+    "event",
+    "driven",
+    "framework",
+    "signals",
+    "slots",
+    "danko",
+    "kozar"
+  ],
+  "author": "Danko Kozar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dkozar/edriven/issues"
+  },
+  "homepage": "https://github.com/dkozar/edriven#readme"
+}
