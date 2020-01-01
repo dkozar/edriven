@@ -1,6 +1,6 @@
 {
   "name": "edriven",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Unity3d event-driven framework",
   "main": "Unity/Unity.sln",
   "scripts": {
